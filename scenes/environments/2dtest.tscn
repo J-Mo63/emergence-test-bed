@@ -65,4 +65,4 @@ gravity_scale = 0.0
 linear_damp = 1.0
 
 [node name="Pig" parent="." instance=ExtResource( 3 )]
-position = Vector2( 200.518, 217.015 )
+position = Vector2( 147.706, 172.755 )

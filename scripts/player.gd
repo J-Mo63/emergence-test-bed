@@ -4,10 +4,6 @@ export (int) var speed = 100
 var velocity = Vector2()
 onready var anim = $AnimationPlayer
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
 func _physics_process(_delta):
 	velocity = Vector2()
 	if Input.is_action_pressed('right'):
