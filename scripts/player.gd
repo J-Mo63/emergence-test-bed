@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export (int) var speed = 100
 var velocity = Vector2()
-onready var anim = get_node("./AnimationPlayer")
+onready var anim = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
