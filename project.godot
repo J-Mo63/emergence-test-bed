@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="Emergence Test Bed"
 run/main_scene="res://scenes/environments/2dtest.tscn"
-config/icon="res://images/icon.png"
+config/icon="res://assets/icon.png"
 
 [input]
 

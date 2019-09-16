@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon.png-b9450fb2459f5b277908511db3d050dd.stex"
+path="res://.import/pig_walk.png-ef24c00a745d4cf95f8d1b34d095840d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/icon.png"
-dest_files=[ "res://.import/icon.png-b9450fb2459f5b277908511db3d050dd.stex" ]
+source_file="res://assets/pig_walk.png"
+dest_files=[ "res://.import/pig_walk.png-ef24c00a745d4cf95f8d1b34d095840d.stex" ]
 
 [params]
 
