@@ -18,7 +18,7 @@ func _process(_delta):
 	var bodies = line.get_overlapping_bodies()
 	
 	for body in bodies:
-		if body.get_instance_id () != get_instance_id ():
+		if body.get_instance_id () != get_instance_id () and body.is_in_group("Entity"):
 			target = body.position
 
 func _physics_process(_delta):
