@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export (int) var speed = 100
 
-var target = Vector2()
+onready var target = position
 var velocity = Vector2()
 
 onready var anim = $AnimationPlayer
