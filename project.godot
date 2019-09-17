@@ -21,6 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Emergence Test Bed"
+run/main_scene="res://scenes/environments/master.tscn"
 config/icon="res://assets/icon.png"
 
 [input]
