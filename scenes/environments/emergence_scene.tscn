@@ -2,7 +2,6 @@
 
 [ext_resource path="res://assets/tilemaps/OutdoorsTileset.png" type="Texture" id=1]
 
-
 [sub_resource type="TileSet" id=1]
 0/name = "Outdoors"
 0/texture = ExtResource( 1 )
