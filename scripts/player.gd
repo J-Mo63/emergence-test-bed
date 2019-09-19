@@ -3,12 +3,10 @@ extends KinematicBody2D
 # Public fields
 export (int) var speed = 100
 
-# Nodes
-onready var anim_player = $AnimationPlayer
-
 # Private fields
 var velocity = Vector2()
 onready var target = position
+onready var anim_player = $AnimationPlayer
 
 
 func _physics_process(_delta):
