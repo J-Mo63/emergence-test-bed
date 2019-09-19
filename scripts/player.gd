@@ -10,40 +10,28 @@ func _input(event):
 		target = get_global_mouse_position()
 
 func _physics_process(_delta):
-	var temp_velocity = Vector2()
-	if Input.is_action_pressed('right'):
-		temp_velocity.x += 1
-	if Input.is_action_pressed('left'):
-		temp_velocity.x -= 1
-	if Input.is_action_pressed('down'):
-		temp_velocity.y += 1
-	if Input.is_action_pressed('up'):
-		temp_velocity.y -= 1
-	
-	temp_velocity = (target - position).normalized() * speed
-	velocity = temp_velocity.normalized() * speed
-	velocity = move_and_slide(velocity)
-	
 	var play_anim = "rest"
-	print(str(temp_velocity.x) + ', ' + str(temp_velocity.y))
-	if temp_velocity.x != 0 and temp_velocity.y != 0:
-		if temp_velocity.y > 0 and temp_velocity.x < 0:
-			play_anim = "walk_down_left"
-		if temp_velocity.y > 0 and temp_velocity.x > 0:
-			play_anim = "walk_down_right"
-		if temp_velocity.y < 0 and temp_velocity.x < 0:
-			play_anim = "walk_up_left"
-		if temp_velocity.y < 0 and temp_velocity.x > 0:
-			play_anim = "walk_up_right"
-	elif temp_velocity.x == 0 and temp_velocity.y == 0:
-		play_anim = "rest"
+	if (target - position).length() > 5:
+		velocity = (target - position).normalized() * speed
+		velocity = move_and_slide(velocity)
+		
+		if velocity.x != 0 and velocity.y != 0:
+			if velocity.y > 0 and velocity.x < 0:
+				play_anim = "walk_down_left"
+			if velocity.y > 0 and velocity.x > 0:
+				play_anim = "walk_down_right"
+			if velocity.y < 0 and velocity.x < 0:
+				play_anim = "walk_up_left"
+			if velocity.y < 0 and velocity.x > 0:
+				play_anim = "walk_up_right"
+		else:
+			if velocity.x < 0:
+				play_anim = "walk_left"
+			if velocity.x > 0:
+				play_anim = "walk_right"
+			if velocity.y > 0:
+				play_anim = "walk_down"
+			if velocity.y < 0:
+				play_anim = "walk_up"
 	else:
-		if temp_velocity.x < 0:
-			play_anim = "walk_left"
-		if temp_velocity.x > 0:
-			play_anim = "walk_right"
-		if temp_velocity.y > 0:
-			play_anim = "walk_down"
-		if temp_velocity.y < 0:
-			play_anim = "walk_up"
 	anim.play(play_anim)
