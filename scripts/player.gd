@@ -5,9 +5,6 @@ var velocity = Vector2()
 onready var anim = $AnimationPlayer
 onready var target = position
 
-func _input(event):
-	if event.is_action_pressed('click'):
-		target = get_global_mouse_position()
 
 func _physics_process(_delta):
 	var play_anim = "rest"
@@ -34,4 +31,11 @@ func _physics_process(_delta):
 			if velocity.y < 0:
 				play_anim = "walk_up"
 	else:
+		target = get_random_screen_location()
 	anim.play(play_anim)
+
+
+func get_random_screen_location():
+	var rand_x = rand_range(0, get_viewport().size.x + 1)
+	var rand_y = rand_range(0, get_viewport().size.y + 1)
+	return Vector2(rand_x, rand_y)

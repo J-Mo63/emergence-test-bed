@@ -45,4 +45,3 @@ __meta__ = {
 
 [node name="Dude" parent="." instance=ExtResource( 2 )]
 position = Vector2( 232, 189 )
-speed = 100
