@@ -1,38 +1,49 @@
 extends KinematicBody2D
 
+# Public fields
 export (int) var speed = 100
+
+# Nodes
+onready var anim_player = $AnimationPlayer
+
+# Private fields
 var velocity = Vector2()
-onready var anim = $AnimationPlayer
 onready var target = position
 
 
 func _physics_process(_delta):
-	var play_anim = "rest"
 	if (target - position).length() > 5:
 		velocity = (target - position).normalized() * speed
 		velocity = move_and_slide(velocity)
-		
-		if velocity.x != 0 and velocity.y != 0:
-			if velocity.y > 0 and velocity.x < 0:
-				play_anim = "walk_down_left"
-			if velocity.y > 0 and velocity.x > 0:
-				play_anim = "walk_down_right"
-			if velocity.y < 0 and velocity.x < 0:
-				play_anim = "walk_up_left"
-			if velocity.y < 0 and velocity.x > 0:
-				play_anim = "walk_up_right"
-		else:
-			if velocity.x < 0:
-				play_anim = "walk_left"
-			if velocity.x > 0:
-				play_anim = "walk_right"
-			if velocity.y > 0:
-				play_anim = "walk_down"
-			if velocity.y < 0:
-				play_anim = "walk_up"
 	else:
 		target = get_random_screen_location()
-	anim.play(play_anim)
+	
+	play_animation()
+
+
+func play_animation():
+	var play_anim
+	if velocity.x != 0 and velocity.y != 0:
+		if velocity.y > 0 and velocity.x < 0:
+			play_anim = "walk_down_left"
+		if velocity.y > 0 and velocity.x > 0:
+			play_anim = "walk_down_right"
+		if velocity.y < 0 and velocity.x < 0:
+			play_anim = "walk_up_left"
+		if velocity.y < 0 and velocity.x > 0:
+			play_anim = "walk_up_right"
+	elif velocity.x == 0 and velocity.y == 0:
+		play_anim = "rest"
+	else:
+		if velocity.x < 0:
+			play_anim = "walk_left"
+		if velocity.x > 0:
+			play_anim = "walk_right"
+		if velocity.y > 0:
+			play_anim = "walk_down"
+		if velocity.y < 0:
+			play_anim = "walk_up"
+	anim_player.play(play_anim)
 
 
 func get_random_screen_location():
