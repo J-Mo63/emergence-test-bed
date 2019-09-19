@@ -3,6 +3,11 @@ extends KinematicBody2D
 export (int) var speed = 100
 var velocity = Vector2()
 onready var anim = $AnimationPlayer
+onready var target = position
+
+func _input(event):
+	if event.is_action_pressed('click'):
+		target = get_global_mouse_position()
 
 func _physics_process(_delta):
 	var temp_velocity = Vector2()
@@ -14,31 +19,31 @@ func _physics_process(_delta):
 		temp_velocity.y += 1
 	if Input.is_action_pressed('up'):
 		temp_velocity.y -= 1
-		
+	
+	temp_velocity = (target - position).normalized() * speed
 	velocity = temp_velocity.normalized() * speed
 	velocity = move_and_slide(velocity)
 	
-	var play_anim
+	var play_anim = "rest"
 	print(str(temp_velocity.x) + ', ' + str(temp_velocity.y))
 	if temp_velocity.x != 0 and temp_velocity.y != 0:
-		if temp_velocity.y == 1 and temp_velocity.x == -1:
+		if temp_velocity.y > 0 and temp_velocity.x < 0:
 			play_anim = "walk_down_left"
-		if temp_velocity.y == 1 and temp_velocity.x == 1:
+		if temp_velocity.y > 0 and temp_velocity.x > 0:
 			play_anim = "walk_down_right"
-		if temp_velocity.y == -1 and temp_velocity.x == -1:
+		if temp_velocity.y < 0 and temp_velocity.x < 0:
 			play_anim = "walk_up_left"
-		if temp_velocity.y == -1 and temp_velocity.x == 1:
+		if temp_velocity.y < 0 and temp_velocity.x > 0:
 			play_anim = "walk_up_right"
 	elif temp_velocity.x == 0 and temp_velocity.y == 0:
 		play_anim = "rest"
 	else:
-		if temp_velocity.x == -1:
+		if temp_velocity.x < 0:
 			play_anim = "walk_left"
-		if temp_velocity.x == 1:
+		if temp_velocity.x > 0:
 			play_anim = "walk_right"
-		if temp_velocity.y == 1:
+		if temp_velocity.y > 0:
 			play_anim = "walk_down"
-		if temp_velocity.y == -1:
+		if temp_velocity.y < 0:
 			play_anim = "walk_up"
-	
 	anim.play(play_anim)
