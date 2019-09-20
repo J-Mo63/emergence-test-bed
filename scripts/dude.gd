@@ -10,13 +10,19 @@ onready var anim_player = $AnimationPlayer
 
 
 func _physics_process(_delta):
+	move()
+	play_animation()
+
+
+func move():
 	if (target - position).length() > 5:
 		velocity = (target - position).normalized() * speed
 		velocity = move_and_slide(velocity)
 	else:
-		target = get_random_screen_location()
-	
-	play_animation()
+		#target = get_random_screen_location()
+		
+		var resources = get_tree().get_nodes_in_group("resource")
+		target = resources[0].position
 
 
 func play_animation():
