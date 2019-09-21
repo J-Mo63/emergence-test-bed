@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/wood.png-4dba2229a7387686a23e4a4eaab85ae7.image"
+
+[deps]
+
+source_file="res://assets/sprites/wood.png"
+dest_files=[ "res://.import/wood.png-4dba2229a7387686a23e4a4eaab85ae7.image" ]
+
+[params]
+
