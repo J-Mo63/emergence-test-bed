@@ -5,7 +5,7 @@ var tree_scene = load("res://scenes/entities/tree.tscn")
 var health = 50
 
 func _ready():
-	# $Timer.connect("timeout", self, "_on_timer_timeout")
+	$Timer.connect("timeout", self, "_on_timer_timeout")
 	pass
 
 
@@ -24,7 +24,7 @@ func _on_timer_timeout():
 		get_parent().add_child(tree_instance)
 
 
-func _cut():
+func _gather():
 	health -= 1
 	if health == 0:
 		queue_free()
