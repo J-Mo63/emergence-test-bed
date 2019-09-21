@@ -27,15 +27,7 @@ func move():
 		if item:
 			pass
 		else:
-			var bodies = dude_range.get_overlapping_bodies()
-			if bodies:
-				for body in bodies:
-					if body.is_in_group("resource"):
-						item = body._cut()
-						print(item)
-			else:
-				var resources = get_tree().get_nodes_in_group("resource")
-				target = resources[0].position
+			gather_items()
 
 
 func play_animation():
@@ -61,6 +53,18 @@ func play_animation():
 		if velocity.y < 0:
 			play_anim = "walk_up"
 	anim_player.play(play_anim)
+
+
+func gather_items():
+	var bodies = dude_range.get_overlapping_bodies()
+	if bodies:
+		for body in bodies:
+			if body.is_in_group("resource"):
+				item = body._cut()
+				$BodySprite/ItemSprite.visible = item != null
+	else:
+		var resources = get_tree().get_nodes_in_group("resource")
+		target = resources[0].position
 
 
 func get_random_screen_location():
