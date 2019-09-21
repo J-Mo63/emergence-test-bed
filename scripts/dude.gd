@@ -25,7 +25,7 @@ func move():
 		velocity = Vector2()
 		
 		if item:
-			pass
+			deposit_items()
 		else:
 			gather_items()
 
@@ -55,15 +55,26 @@ func play_animation():
 	anim_player.play(play_anim)
 
 
+func deposit_items():
+	for body in dude_range.get_overlapping_bodies():
+		if body.is_in_group("depot"):
+			body._deposit(item)
+			item = null
+			$BodySprite/ItemSprite.visible = item != null
+			pass
+	var depots = get_tree().get_nodes_in_group("depot")
+	if depots:
+		target = depots[0].position
+
+
 func gather_items():
-	var bodies = dude_range.get_overlapping_bodies()
-	if bodies:
-		for body in bodies:
-			if body.is_in_group("resource"):
-				item = body._cut()
-				$BodySprite/ItemSprite.visible = item != null
-	else:
-		var resources = get_tree().get_nodes_in_group("resource")
+	for body in dude_range.get_overlapping_bodies():
+		if body.is_in_group("resource"):
+			item = body._cut()
+			$BodySprite/ItemSprite.visible = item != null
+			pass
+	var resources = get_tree().get_nodes_in_group("resource")
+	if resources:
 		target = resources[0].position
 
 
