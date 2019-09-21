@@ -60,7 +60,7 @@ func deposit_items():
 		if body.is_in_group("depot"):
 			body._deposit(item)
 			item = null
-			$BodySprite/ItemSprite.visible = item != null
+			$BodySprite/ItemSprite.texture = item
 			pass
 	var depots = get_tree().get_nodes_in_group("depot")
 	if depots:
@@ -71,7 +71,11 @@ func gather_items():
 	for body in dude_range.get_overlapping_bodies():
 		if body.is_in_group("resource"):
 			item = body._cut()
-			$BodySprite/ItemSprite.visible = item != null
+			if item:
+				var image_texture = ImageTexture.new()
+				image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
+				image_texture.set_flags(Texture.FLAG_FILTER)
+				$BodySprite/ItemSprite.texture = image_texture
 			pass
 	var resources = get_tree().get_nodes_in_group("resource")
 	if resources:
