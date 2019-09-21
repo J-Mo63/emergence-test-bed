@@ -10,5 +10,5 @@ func _deposit(item):
 	image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
 	image_texture.set_flags(Texture.FLAG_FILTER)
 	item_sprite.texture = image_texture
-	item_sprite.position = Vector2(rand_range(0, item_scatter), rand_range(0, item_scatter))
+	item_sprite.position = Vector2(rand_range(-item_scatter, item_scatter), rand_range(-item_scatter, item_scatter))
 	add_child(item_sprite)
