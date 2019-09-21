@@ -7,6 +7,8 @@ export (int) var speed = 100
 var velocity = Vector2()
 onready var target = position
 onready var anim_player = $AnimationPlayer
+onready var dude_range = $Range
+var item
 
 
 func _physics_process(_delta):
@@ -15,14 +17,25 @@ func _physics_process(_delta):
 
 
 func move():
-	if (target - position).length() > 5:
+	if (target - position).length() > 30:
 		velocity = (target - position).normalized() * speed
 		velocity = move_and_slide(velocity)
 	else:
 		#target = get_random_screen_location()
+		velocity = Vector2()
 		
-		var resources = get_tree().get_nodes_in_group("resource")
-		target = resources[0].position
+		if item:
+			pass
+		else:
+			var bodies = dude_range.get_overlapping_bodies()
+			if bodies:
+				for body in bodies:
+					if body.is_in_group("resource"):
+						item = body._cut()
+						print(item)
+			else:
+				var resources = get_tree().get_nodes_in_group("resource")
+				target = resources[0].position
 
 
 func play_animation():
