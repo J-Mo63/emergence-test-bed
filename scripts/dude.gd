@@ -54,8 +54,18 @@ func gather_items():
 			pass
 	var resources = get_tree().get_nodes_in_group("resource")
 	if resources:
-		target = resources[0]
-		target_position = resources[0].position
+		target = get_closest(resources)
+		target_position = target.position
+
+
+func get_closest(values):
+	var closest_value = values[0]
+	for value in values:
+		var current_len = (position - closest_value.position).length()
+		var potential_len = (position - value.position).length()
+		if potential_len < current_len:
+			closest_value = value
+	return closest_value
 
 
 func play_animation():
