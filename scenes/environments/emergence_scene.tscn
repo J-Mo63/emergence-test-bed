@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/tilemaps/OutdoorsTileset.png" type="Texture" id=1]
 [ext_resource path="res://scenes/entities/tree.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/entities/dude.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/depot.gd" type="Script" id=4]
-[ext_resource path="res://scenes/entities/rock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/entities/rock.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/entities/depot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/entities/dude.tscn" type="PackedScene" id=5]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Outdoors"
@@ -23,9 +23,6 @@
 0/navigation_offset = Vector2( 0, 0 )
 0/shapes = [  ]
 0/z_index = 0
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 11.6655, 10.2714 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -55,20 +52,16 @@ position = Vector2( 710.768, 77.0973 )
 [node name="Tree2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 560.758, 478.617 )
 
-[node name="Dude" parent="." instance=ExtResource( 3 )]
-position = Vector2( 232, 189 )
-
-[node name="Depot" type="StaticBody2D" parent="." groups=[
-"depot",
-]]
-position = Vector2( 494.063, 257.48 )
-script = ExtResource( 4 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Depot"]
-shape = SubResource( 2 )
-
-[node name="Rock" parent="." instance=ExtResource( 5 )]
+[node name="Rock" parent="." instance=ExtResource( 3 )]
 position = Vector2( 405.251, 136.576 )
 
-[node name="Rock2" parent="." instance=ExtResource( 5 )]
+[node name="Rock2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 329.127, 376.145 )
+
+[node name="Depot" parent="." instance=ExtResource( 4 )]
+
+[node name="Dude" parent="." instance=ExtResource( 5 )]
+position = Vector2( 232, 189 )
+
+[node name="Dude2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 821.757, 303.124 )
