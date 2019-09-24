@@ -30,9 +30,9 @@ func move():
 
 
 func deposit_items():
-	for body in dude_range.get_overlapping_bodies():
-		if body.is_in_group("depot"):
-			body._deposit(item)
+	for area in dude_range.get_overlapping_areas():
+		if area.is_in_group("depot"):
+			area._deposit(item)
 			item = null
 			$BodySprite/ItemSprite.texture = item
 			pass
@@ -42,10 +42,10 @@ func deposit_items():
 
 
 func gather_items():
-	var bodies = dude_range.get_overlapping_bodies()
-	for body in bodies:
-		if body == target:
-			item = body._gather()
+	var areas = dude_range.get_overlapping_areas()
+	for area in areas:
+		if area == target:
+			item = area._gather()
 			if item:
 				var image_texture = ImageTexture.new()
 				image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
