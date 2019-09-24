@@ -53,16 +53,24 @@ func gather_items():
 				$BodySprite/ItemSprite.texture = image_texture
 			pass
 	var resources = get_tree().get_nodes_in_group("resource")
+	filter_areas(resources)
 	if resources:
 		target = get_closest(resources)
-		target_position = target.position
+		target_position = target.global_position
+		print(target_position)
+
+
+func filter_areas(areas):
+	for i in range(areas.size()):
+		if areas[i].get_groups().has("group"):
+			areas.remove(i)
 
 
 func get_closest(values):
 	var closest_value = values[0]
 	for value in values:
-		var current_len = (position - closest_value.position).length()
-		var potential_len = (position - value.position).length()
+		var current_len = (position - closest_value.global_position).length()
+		var potential_len = (position - value.global_position).length()
 		if potential_len < current_len:
 			closest_value = value
 	return closest_value
