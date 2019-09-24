@@ -1,13 +1,11 @@
 extends KinematicBody2D
 
-# Constants
-enum {NO_FOOD}
-
 # Public fields
 export (int) var speed = 100
 export (int) var max_hunger = 3000
 
 # Private fields
+enum {NO_FOOD}
 var hunger = max_hunger
 var velocity = Vector2()
 onready var target = self
@@ -23,6 +21,7 @@ func _physics_process(_delta):
 	if target_position:
 		move()
 	play_animation()
+
 
 func run_actions(flags = []):
 	if hunger < (max_hunger/2) and not flags.has(NO_FOOD):
@@ -40,13 +39,11 @@ func process_needs():
 
 
 func eat():
-	var areas = dude_range.get_overlapping_areas()
-	for area in areas:
-		if area == target and area.is_in_group("food"):
-			var food_value = area._gather()
-			if food_value:
-				hunger += food_value
-				break
+	var food = get_target_area("food")
+	if food:
+		var food_value = food._gather()
+		if food_value:
+			hunger += food_value
 	var foods = get_tree().get_nodes_in_group("food")
 	if foods:
 		set_target(get_closest(foods))
@@ -55,31 +52,36 @@ func eat():
 
 
 func deposit_items():
-	for area in dude_range.get_overlapping_areas():
-		if area == target and area.is_in_group("depot"):
-			area._deposit(item)
-			item = null
-			$BodySprite/ItemSprite.texture = item
-			break
+	var depot = get_target_area("depot")
+	if depot:
+		depot._deposit(item)
+		item = null
+		$BodySprite/ItemSprite.texture = item
 	var depots = get_tree().get_nodes_in_group("depot")
 	if depots:
 		set_target(depots[0])
 
 
 func gather_items():
-	var areas = dude_range.get_overlapping_areas()
-	for area in areas:
-		if area == target and area.is_in_group("resource"):
-			item = area._gather()
-			if item:
-				var image_texture = ImageTexture.new()
-				image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
-				image_texture.set_flags(Texture.FLAG_FILTER)
-				$BodySprite/ItemSprite.texture = image_texture
-				break
+	var resource = get_target_area("resource")
+	if resource:
+		item = resource._gather()
+		if item:
+			var image_texture = ImageTexture.new()
+			image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
+			image_texture.set_flags(Texture.FLAG_FILTER)
+			$BodySprite/ItemSprite.texture = image_texture
 	var resources = get_tree().get_nodes_in_group("resource")
 	if resources:
 		set_target(get_closest(resources))
+
+
+func get_target_area(group_name):
+	var areas = dude_range.get_overlapping_areas()
+	for i in range(areas.size()):
+		var area = areas[i]
+		if area == target and area.is_in_group(group_name):
+			return area
 
 
 func move():
