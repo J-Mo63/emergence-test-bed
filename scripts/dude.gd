@@ -44,11 +44,12 @@ func eat():
 		var food_value = food._gather()
 		if food_value:
 			hunger += food_value
-	var foods = get_tree().get_nodes_in_group("food")
-	if foods:
-		set_target(get_closest(foods))
 	else:
-		run_actions([NO_FOOD])
+		var foods = get_tree().get_nodes_in_group("food")
+		if foods:
+			set_target(get_closest(foods))
+		else:
+			run_actions([NO_FOOD])
 
 
 func deposit_items():
@@ -57,9 +58,10 @@ func deposit_items():
 		depot._deposit(item)
 		item = null
 		$BodySprite/ItemSprite.texture = item
-	var depots = get_tree().get_nodes_in_group("depot")
-	if depots:
-		set_target(depots[0])
+	else:
+		var depots = get_tree().get_nodes_in_group("depot")
+		if depots:
+			set_target(depots[0])
 
 
 func gather_items():
@@ -71,9 +73,10 @@ func gather_items():
 			image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
 			image_texture.set_flags(Texture.FLAG_FILTER)
 			$BodySprite/ItemSprite.texture = image_texture
-	var resources = get_tree().get_nodes_in_group("resource")
-	if resources:
-		set_target(get_closest(resources))
+	else:
+		var resources = get_tree().get_nodes_in_group("resource")
+		if resources:
+			set_target(get_closest(resources))
 
 
 func get_target_area(group_name):
