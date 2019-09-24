@@ -13,20 +13,13 @@ var item
 
 
 func _physics_process(_delta):
-	move()
-	play_animation()
-
-
-func move():
-	if (target_position - position).length() > 30:
-		velocity = (target_position - position).normalized() * speed
-		velocity = move_and_slide(velocity)
+	if target_position:
+		move()
+	elif item:
+		deposit_items()
 	else:
-		velocity = Vector2()
-		if item:
-			deposit_items()
-		else:
-			gather_items()
+		gather_items()
+	play_animation()
 
 
 func deposit_items():
@@ -35,7 +28,7 @@ func deposit_items():
 			area._deposit(item)
 			item = null
 			$BodySprite/ItemSprite.texture = item
-			pass
+			break
 	var depots = get_tree().get_nodes_in_group("depot")
 	if depots:
 		target_position = depots[0].position
@@ -51,12 +44,21 @@ func gather_items():
 				image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
 				image_texture.set_flags(Texture.FLAG_FILTER)
 				$BodySprite/ItemSprite.texture = image_texture
-			pass
+				break
 	var resources = get_tree().get_nodes_in_group("resource")
 	if resources:
 		target = get_closest(resources)
 		target_position = target.global_position
 		print(target_position)
+
+
+func move():
+	if (target_position - position).length() > 30:
+		velocity = (target_position - position).normalized() * speed
+		velocity = move_and_slide(velocity)
+	else:
+		velocity = Vector2()
+		target_position = null
 
 
 func get_closest(values):
