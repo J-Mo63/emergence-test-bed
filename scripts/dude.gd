@@ -18,8 +18,7 @@ var item
 func _physics_process(_delta):
 	process_needs()
 	run_actions()
-	if target_position:
-		move()
+	move()
 	play_animation()
 
 
@@ -88,12 +87,13 @@ func get_target_area(group_name):
 
 
 func move():
-	if (target_position - position).length() > 30:
-		velocity = (target_position - position).normalized() * speed
-		velocity = move_and_slide(velocity)
-	else:
-		velocity = Vector2()
-		target_position = null
+	if target_position:
+		if (target_position - position).length() > 30:
+			velocity = (target_position - position).normalized() * speed
+			velocity = move_and_slide(velocity)
+		else:
+			velocity = Vector2()
+			target_position = null
 
 
 func set_target(value):
