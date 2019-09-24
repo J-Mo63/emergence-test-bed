@@ -52,13 +52,29 @@ position = Vector2( 710.768, 77.0973 )
 [node name="Tree2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 560.758, 478.617 )
 
+[node name="Tree3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 913.383, 500.485 )
+
 [node name="Rock" parent="." instance=ExtResource( 3 )]
 position = Vector2( 405.251, 136.576 )
+
+[node name="Rock3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 73.1273, 422.913 )
+
+[node name="Rock4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 104.563, 483.051 )
+
+[node name="Rock5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 206.387, 545.922 )
+
+[node name="Rock6" parent="." instance=ExtResource( 3 )]
+position = Vector2( 52.6258, 553.439 )
 
 [node name="Rock2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 329.127, 376.145 )
 
 [node name="Depot" parent="." instance=ExtResource( 4 )]
+position = Vector2( 496.135, 254.902 )
 
 [node name="Dude" parent="." instance=ExtResource( 5 )]
 position = Vector2( 232, 189 )

@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 14.3338
 
-[node name="Tree" type="StaticBody2D" groups=[
+[node name="Tree" type="Area2D" groups=[
 "resource",
 ]]
 script = ExtResource( 1 )

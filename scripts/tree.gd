@@ -1,6 +1,6 @@
-extends StaticBody2D
+extends Area2D
 
-export var offspring_padding = 2
+export var offspring_padding = 3
 var tree_scene = load("res://scenes/entities/tree.tscn")
 var health = 50
 

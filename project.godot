@@ -56,6 +56,12 @@ click={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Entities"
+2d_physics/layer_2="Resources"
+2d_physics/layer_3="Buildings"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
