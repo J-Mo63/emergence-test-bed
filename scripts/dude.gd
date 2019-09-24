@@ -2,8 +2,10 @@ extends KinematicBody2D
 
 # Public fields
 export (int) var speed = 100
+export (int) var max_hunger = 3000
 
 # Private fields
+var hunger = max_hunger
 var velocity = Vector2()
 onready var target = self
 onready var target_position = position
@@ -13,31 +15,54 @@ var item
 
 
 func _physics_process(_delta):
-	if target_position:
-		move()
+	var flags = {}
+	process_needs()
+	if hunger < (max_hunger/2):
+		eat()
 	elif item:
 		deposit_items()
 	else:
 		gather_items()
+	if target_position:
+		move()
 	play_animation()
+
+
+func process_needs():
+	hunger -= 1
+	if hunger <=0:
+		queue_free()
+
+
+func eat():
+	var areas = dude_range.get_overlapping_areas()
+	for area in areas:
+		if area == target and area.is_in_group("food"):
+			var food_value = area._gather()
+			if food_value:
+				hunger += food_value
+				break
+	var foods = get_tree().get_nodes_in_group("food")
+	if foods:
+		set_target(get_closest(foods))
 
 
 func deposit_items():
 	for area in dude_range.get_overlapping_areas():
-		if area.is_in_group("depot"):
+		if area == target and area.is_in_group("depot"):
 			area._deposit(item)
 			item = null
 			$BodySprite/ItemSprite.texture = item
 			break
 	var depots = get_tree().get_nodes_in_group("depot")
 	if depots:
-		target_position = depots[0].position
+		set_target(depots[0])
 
 
 func gather_items():
 	var areas = dude_range.get_overlapping_areas()
 	for area in areas:
-		if area == target:
+		if area == target and area.is_in_group("resource"):
 			item = area._gather()
 			if item:
 				var image_texture = ImageTexture.new()
@@ -47,9 +72,7 @@ func gather_items():
 				break
 	var resources = get_tree().get_nodes_in_group("resource")
 	if resources:
-		target = get_closest(resources)
-		target_position = target.global_position
-		print(target_position)
+		set_target(get_closest(resources))
 
 
 func move():
@@ -59,6 +82,11 @@ func move():
 	else:
 		velocity = Vector2()
 		target_position = null
+
+
+func set_target(value):
+	target = value
+	target_position = target.global_position
 
 
 func get_closest(values):
