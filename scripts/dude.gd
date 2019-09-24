@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+# Constants
+enum {NO_FOOD}
+
 # Public fields
 export (int) var speed = 100
 export (int) var max_hunger = 3000
@@ -15,17 +18,19 @@ var item
 
 
 func _physics_process(_delta):
-	var flags = {}
 	process_needs()
-	if hunger < (max_hunger/2):
+	run_actions()
+	if target_position:
+		move()
+	play_animation()
+
+func run_actions(flags = []):
+	if hunger < (max_hunger/2) and not flags.has(NO_FOOD):
 		eat()
 	elif item:
 		deposit_items()
 	else:
 		gather_items()
-	if target_position:
-		move()
-	play_animation()
 
 
 func process_needs():
@@ -45,6 +50,8 @@ func eat():
 	var foods = get_tree().get_nodes_in_group("food")
 	if foods:
 		set_target(get_closest(foods))
+	else:
+		run_actions([NO_FOOD])
 
 
 func deposit_items():
