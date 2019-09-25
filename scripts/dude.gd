@@ -3,6 +3,7 @@ extends KinematicBody2D
 # Public fields
 export (int) var speed = 100
 export (int) var max_hunger = 3000
+export (int) var lifespan = 10000
 
 # Private fields
 enum {NO_FOOD}
@@ -33,7 +34,8 @@ func run_actions(flags = []):
 
 func process_needs():
 	hunger -= 1
-	if hunger <=0:
+	lifespan -= 1
+	if hunger <= 0 or lifespan <= 0:
 		queue_free()
 
 
