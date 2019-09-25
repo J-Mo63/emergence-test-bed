@@ -14,6 +14,7 @@ onready var target_position = position
 onready var anim_player = $AnimationPlayer
 onready var dude_range = $Range
 var item
+var owned_depot
 
 
 func _physics_process(_delta):
@@ -27,7 +28,10 @@ func run_actions(flags = []):
 	if hunger < (max_hunger/2) and not flags.has(NO_FOOD):
 		eat()
 	elif item:
-		deposit_items()
+		if owned_depot:
+			deposit_items()
+		else:
+			create_depot()
 	else:
 		gather_items()
 
@@ -53,6 +57,13 @@ func eat():
 			run_actions([NO_FOOD])
 
 
+func create_depot():
+	var depot_scene = load("res://scenes/entities/depot.tscn")
+	owned_depot = depot_scene.instance()
+	owned_depot.position = position
+	get_parent().add_child(owned_depot)
+
+
 func deposit_items():
 	var depot = get_target_area("depot")
 	if depot:
@@ -60,9 +71,7 @@ func deposit_items():
 		item = null
 		$BodySprite/ItemSprite.texture = item
 	else:
-		var depots = get_tree().get_nodes_in_group("depot")
-		if depots:
-			set_target(depots[0])
+		set_target(owned_depot)
 
 
 func gather_items():
