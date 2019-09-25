@@ -32,6 +32,8 @@ func run_actions(flags = []):
 			deposit_items()
 		else:
 			create_depot()
+	elif owned_depot and owned_depot.upgradable():
+		upgrade_depot()
 	else:
 		gather_items()
 
@@ -70,6 +72,14 @@ func deposit_items():
 		depot._deposit(item)
 		item = null
 		$BodySprite/ItemSprite.texture = item
+	else:
+		set_target(owned_depot)
+
+
+func upgrade_depot():
+	var depot = get_target_area("depot")
+	if depot:
+		depot._upgrade()
 	else:
 		set_target(owned_depot)
 
