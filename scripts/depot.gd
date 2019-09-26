@@ -17,17 +17,26 @@ func _deposit(item):
 	image_texture.set_flags(Texture.FLAG_FILTER)
 	item_sprite.texture = image_texture
 	item_sprite.position = Vector2(rand_range(-item_scatter, item_scatter), rand_range(-item_scatter, item_scatter))
+	item_sprite.add_to_group("resource_sprite")
 	add_child(item_sprite)
 
 
 func _upgrade():
 	depot_level += 1
 	if depot_level >= upgrade_level:
+		items["wood"] = items.get("wood") - 5
 		$Sprite.visible = true
 		
+		var removed = 0
+		for child in get_children():
+			if child is Sprite and child.is_in_group("resource_sprite"):
+				child.queue_free()
+				removed += 1
+				if removed >= 5:
+					break
 
 
 func upgradable():
 	if depot_level < upgrade_level:
-		if items.get("wood") and items.get("rock"):
-			return items.get("wood") >= 1 and items.get("rock") >= 2
+		return items.get("wood") and items.get("wood") >= 5
+		
