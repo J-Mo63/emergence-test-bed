@@ -47,10 +47,10 @@ __meta__ = {
 }
 
 [node name="Tree" parent="." instance=ExtResource( 2 )]
-position = Vector2( 710.768, 77.0973 )
+position = Vector2( 710.768, 76.476 )
 
 [node name="Tree2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 560.758, 478.617 )
+position = Vector2( 561.379, 478.617 )
 
 [node name="Tree3" parent="." instance=ExtResource( 2 )]
 position = Vector2( 913.383, 500.485 )
