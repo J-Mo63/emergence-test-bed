@@ -1,5 +1,6 @@
 extends Area2D
 
+export var upgrade_level = 100
 export var item_scatter = 30
 var items = {}
 var depot_level = 0
@@ -21,12 +22,12 @@ func _deposit(item):
 
 func _upgrade():
 	depot_level += 1
-	if depot_level >= 10:
-		# make it clear
-		pass
+	if depot_level >= upgrade_level:
+		$Sprite.visible = true
+		
 
 
 func upgradable():
-	if depot_level < 10:
+	if depot_level < upgrade_level:
 		if items.get("wood") and items.get("rock"):
 			return items.get("wood") >= 1 and items.get("rock") >= 2
