@@ -503,6 +503,7 @@ radius = 40.444
 [node name="Dude" type="KinematicBody2D" groups=[
 "entity",
 ]]
+z_index = 1
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
