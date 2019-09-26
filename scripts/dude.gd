@@ -6,7 +6,7 @@ export (int) var max_hunger = 3000
 export (int) var lifespan = 10000
 
 # Private fields
-enum {NO_FOOD}
+enum States {NO_FOOD}
 var hunger = max_hunger
 var velocity = Vector2()
 onready var target = self
@@ -25,7 +25,7 @@ func _physics_process(_delta):
 
 
 func run_actions(flags = []):
-	if hunger < (max_hunger/2) and not flags.has(NO_FOOD):
+	if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
 		eat()
 	elif item:
 		if owned_depot:
@@ -56,7 +56,7 @@ func eat():
 		if foods:
 			set_target(get_closest(foods))
 		else:
-			run_actions([NO_FOOD])
+			run_actions([States.NO_FOOD])
 
 
 func create_depot():
