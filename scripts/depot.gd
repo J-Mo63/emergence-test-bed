@@ -34,6 +34,9 @@ func _upgrade():
 				removed += 1
 				if removed >= 5:
 					break
+		queue_free()
+		return true
+	return false
 
 
 func upgradable():

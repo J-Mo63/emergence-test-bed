@@ -14,6 +14,7 @@ onready var target_position = position
 onready var anim_player = $AnimationPlayer
 onready var dude_range = $Range
 var item
+var has_building = false
 var owned_depot
 
 
@@ -27,6 +28,8 @@ func _physics_process(_delta):
 func run_actions(flags = []):
 	if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
 		eat()
+	elif has_building:
+		create_building()
 	elif item:
 		if owned_depot:
 			deposit_items()
@@ -59,6 +62,14 @@ func eat():
 			run_actions([States.NO_FOOD])
 
 
+func create_building():
+	var building_scene = load("res://scenes/entities/building.tscn")
+	var building = building_scene.instance()
+	building.position = position
+	get_parent().add_child(building)
+	has_building = false
+
+
 func create_depot():
 	var depot_scene = load("res://scenes/entities/depot.tscn")
 	owned_depot = depot_scene.instance()
@@ -79,7 +90,9 @@ func deposit_items():
 func upgrade_depot():
 	var depot = get_target_area("depot")
 	if depot:
-		depot._upgrade()
+		if depot._upgrade():
+			has_building = true
+			owned_depot = null
 	else:
 		set_target(owned_depot)
 
