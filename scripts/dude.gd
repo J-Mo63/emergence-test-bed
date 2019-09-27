@@ -35,7 +35,7 @@ func run_actions(flags = []):
 			deposit_items()
 		else:
 			create_depot()
-	elif owned_depot and owned_depot.upgradable():
+	elif owned_depot and owned_depot.full():
 		upgrade_depot()
 	else:
 		gather_items()
@@ -90,7 +90,7 @@ func deposit_items():
 func upgrade_depot():
 	var depot = get_target_area("depot")
 	if depot:
-		if depot._upgrade():
+		if depot._gather():
 			has_building = true
 			owned_depot = null
 	else:

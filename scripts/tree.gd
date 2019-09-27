@@ -1,8 +1,8 @@
 extends Area2D
 
-export var offspring_padding = 2
+export (float) var offspring_padding = 2
+export (int) var health = 50
 var tree_scene = load("res://scenes/entities/tree.tscn")
-var health = 50
 
 
 func _ready():

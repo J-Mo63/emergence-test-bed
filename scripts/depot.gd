@@ -21,7 +21,7 @@ func _deposit(item):
 	add_child(item_sprite)
 
 
-func _upgrade():
+func _gather():
 	depot_level += 1
 	if depot_level >= upgrade_level:
 		items["wood"] = items.get("wood") - 5
@@ -39,7 +39,7 @@ func _upgrade():
 	return false
 
 
-func upgradable():
+func full():
 	if depot_level < upgrade_level:
 		return items.get("wood") and items.get("wood") >= 5
 		
