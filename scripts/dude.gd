@@ -63,11 +63,16 @@ func eat():
 
 
 func create_building():
-	var building_scene = load("res://scenes/entities/building.tscn")
-	var building = building_scene.instance()
-	building.position = position
-	get_parent().add_child(building)
-	has_building = false
+	var buildings = get_tree().get_nodes_in_group("building")
+	var building = get_target_area("building")
+	if building or buildings.empty():
+		var building_scene = load("res://scenes/entities/building.tscn")
+		var new_building = building_scene.instance()
+		new_building.position = position
+		get_parent().add_child(new_building)
+		has_building = false
+	elif buildings:
+		set_target(get_closest(buildings))
 
 
 func create_depot():
