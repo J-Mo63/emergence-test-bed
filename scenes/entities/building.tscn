@@ -16,10 +16,10 @@ image = SubResource( 4 )
 size = Vector2( 390, 480 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 38.6017, 38.0443 )
+extents = Vector2( 66.1868, 63.8897 )
 
 [node name="Area2D" type="Area2D" groups=[
-"depot",
+"building",
 ]]
 
 [node name="Sprite" type="Sprite" parent="."]
