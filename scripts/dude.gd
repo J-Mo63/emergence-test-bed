@@ -66,7 +66,7 @@ func create_building():
 	var buildings = get_tree().get_nodes_in_group("building")
 	var building = get_target_area("building")
 	if building or buildings.empty():
-		var building_scene = load("res://scenes/entities/building.tscn")
+		var building_scene = preload("res://scenes/entities/building.tscn")
 		var new_building = building_scene.instance()
 		new_building.position = position
 		get_parent().add_child(new_building)
@@ -76,7 +76,7 @@ func create_building():
 
 
 func create_depot():
-	var depot_scene = load("res://scenes/entities/depot.tscn")
+	var depot_scene = preload("res://scenes/entities/depot.tscn")
 	owned_depot = depot_scene.instance()
 	owned_depot.position = position
 	get_parent().add_child(owned_depot)
