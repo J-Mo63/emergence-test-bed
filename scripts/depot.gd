@@ -42,4 +42,3 @@ func _gather():
 func full():
 	if depot_level < upgrade_level:
 		return items.get("wood") and items.get("wood") >= 5
-		
