@@ -98,6 +98,8 @@ func upgrade_depot():
 		if depot._gather():
 			has_building = true
 			owned_depot = null
+			var reporter = Reporter.new()
+			reporter.report_event("boy howdy")
 	else:
 		set_target(owned_depot)
 
