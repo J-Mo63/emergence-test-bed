@@ -12,3 +12,23 @@ func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()
 	new_dude.position = position
 	get_parent().add_child(new_dude)
+	
+	_expand()
+
+func _expand():
+	var building_scene = load("res://scenes/entities/building.tscn")
+	var new_building = building_scene.instance()
+	new_building.position = position
+	
+	
+	var building_width = $Sprite.texture.get_size().x / 6
+	var building_spacing = building_width * 2
+	new_building.position = position + Vector2(0, -building_spacing)
+	
+	#var space_state = get_world_2d().direct_space_state
+	#var result = space_state.intersect_ray(position, tree_instance.position, [], 2147483647, false, true)
+	
+	#if result.empty():
+		#get_parent().add_child(tree_instance)
+	
+	get_parent().add_child(new_building)
