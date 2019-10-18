@@ -65,7 +65,10 @@ func eat():
 func create_building():
 	var buildings = get_tree().get_nodes_in_group("building")
 	var building = get_target_area("building")
-	if building or buildings.empty():
+	if building:
+		building._expand()
+		has_building = false
+	elif buildings.empty():
 		var building_scene = preload("res://scenes/entities/building.tscn")
 		var new_building = building_scene.instance()
 		new_building.position = position

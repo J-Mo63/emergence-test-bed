@@ -12,8 +12,6 @@ func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()
 	new_dude.position = position
 	get_parent().add_child(new_dude)
-	
-	_expand()
 
 func _expand():
 	var building_scene = load("res://scenes/entities/building.tscn")
