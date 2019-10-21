@@ -1,6 +1,6 @@
 extends Area2D
 
-export (float) var offspring_padding = 2
+export (float) var offspring_padding = 5
 export (int) var health = 50
 var tree_scene = load("res://scenes/entities/tree.tscn")
 
@@ -11,7 +11,7 @@ func _ready():
 
 func _on_timer_timeout():
 	var tree_instance = tree_scene.instance()
-	var tree_width = $Sprite.texture.get_size().x / 6
+	var tree_width = $Sprite.texture.get_size().x
 	var plant_dir = Vector2()
 	var plant_spacing = tree_width * offspring_padding
 	match randi()%4:
