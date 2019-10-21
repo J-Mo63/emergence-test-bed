@@ -1,10 +1,11 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/rock.gd" type="Script" id=1]
-[ext_resource path="res://assets/tilemaps/OutdoorsTileset.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/quarry.png" type="Texture" id=2]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 14.3338
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 5.14208
+height = 16.178
 
 [node name="Rock" type="Area2D" groups=[
 "resource",
@@ -12,12 +13,10 @@ radius = 14.3338
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.0193295, 10.8277 )
+position = Vector2( -0.32201, 2.63558 )
+rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 2, 2 )
+scale = Vector2( 5, 5 )
 texture = ExtResource( 2 )
-vframes = 9
-hframes = 6
-frame = 16
