@@ -1,5 +1,7 @@
 extends Area2D
 
+export (float) var expansion_padding = 2.2
+
 func _ready():
 	var timer = Timer.new()
 	timer.one_shot = true
@@ -19,8 +21,8 @@ func _expand():
 	new_building.position = position
 	
 	
-	var building_width = $Sprite.texture.get_size().x / 6
-	var building_spacing = building_width * 2
+	var building_width = $Sprite.texture.get_size().x
+	var building_spacing = building_width * expansion_padding
 	new_building.position = position + Vector2(0, -building_spacing)
 	
 	#var space_state = get_world_2d().direct_space_state
