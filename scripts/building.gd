@@ -1,6 +1,6 @@
 extends Area2D
 
-export (float) var expansion_padding = 2.2
+export (float) var expansion_padding = 6
 
 func _ready():
 	var timer = Timer.new()
@@ -19,16 +19,18 @@ func _expand():
 	var building_scene = load("res://scenes/entities/building.tscn")
 	var new_building = building_scene.instance()
 	new_building.position = position
-	
-	
 	var building_width = $Sprite.texture.get_size().x
-	var building_spacing = building_width * expansion_padding
-	new_building.position = position + Vector2(0, -building_spacing)
+	var building_spacing_h = building_width * expansion_padding
+	var building_spacing_v = building_width * (expansion_padding / 2)
 	
-	#var space_state = get_world_2d().direct_space_state
-	#var result = space_state.intersect_ray(position, tree_instance.position, [], 2147483647, false, true)
+	var build_directions = [Vector2(building_spacing_h, 0), Vector2(-building_spacing_h, 0), Vector2(0, building_spacing_v), Vector2(0, -building_spacing_v)]
 	
-	#if result.empty():
-		#get_parent().add_child(tree_instance)
-	
-	get_parent().add_child(new_building)
+	for direction in build_directions:
+		new_building.position = position + direction
+		
+		var space_state = get_world_2d().direct_space_state
+		var result = space_state.intersect_ray(position, new_building.position, [self], 2147483647, false, true)
+		
+		if result.empty() or not result.collider.is_in_group("building"):
+			get_parent().add_child(new_building)
+			break
