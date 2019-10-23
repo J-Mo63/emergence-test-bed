@@ -35,7 +35,7 @@ size = Vector2( 32, 19 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 76.8435, 44.4847 )
 
-[node name="Area2D" type="Area2D" groups=[
+[node name="Building" type="Area2D" groups=[
 "building",
 ]]
 script = ExtResource( 1 )

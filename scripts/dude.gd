@@ -43,7 +43,7 @@ func run_actions(flags = []):
 		gather_depot_rock()
 	elif owned_depot and owned_depot.full_wood():
 		gather_depot_wood()
-	elif owned_building and not owned_building.upgraded():
+	elif owned_building and not owned_building.upgraded:
 		gather_items("quarry")
 	else:
 		gather_items("tree")
