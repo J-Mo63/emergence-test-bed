@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/camera.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilemaps/grasstilemap.png" type="Texture" id=2]
 [ext_resource path="res://scenes/entities/tree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/entities/dude.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/entities/plant.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/entities/quarry.tscn" type="PackedScene" id=6]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grasstilemap.png 0"
@@ -45,7 +46,7 @@ __meta__ = {
 [node name="YSort" type="YSort" parent="."]
 
 [node name="Tree" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 710.768, 76.476 )
+position = Vector2( 523.156, 50.8926 )
 
 [node name="Tree2" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( 442.042, 603.378 )
@@ -56,9 +57,6 @@ position = Vector2( 913.383, 500.485 )
 [node name="Tree4" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( -20.0619, 165.096 )
 
-[node name="Tree5" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 45.8099, 567.122 )
-
 [node name="Dude" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 232, 189 )
 
@@ -67,3 +65,9 @@ position = Vector2( 821.757, 303.124 )
 
 [node name="Plant" parent="YSort" instance=ExtResource( 5 )]
 position = Vector2( 497.223, 261.275 )
+
+[node name="Quarry" parent="YSort" instance=ExtResource( 6 )]
+position = Vector2( 1013.42, -42.6389 )
+
+[node name="Quarry2" parent="YSort" instance=ExtResource( 6 )]
+position = Vector2( 33.6686, 601.685 )
