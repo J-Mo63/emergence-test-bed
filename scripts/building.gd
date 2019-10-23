@@ -8,9 +8,6 @@ func spawn_dude():
 	new_dude.position = position
 	get_parent().add_child(new_dude)
 
-func upgraded():
-	return upgraded
-
 func _upgrade():
 	upgraded = true
 	$StoneSprite.visible = true
@@ -27,8 +24,9 @@ func _expand():
 	var new_building = building_scene.instance()
 	new_building.position = position
 	var building_width = $WoodSprite.texture.get_size().x
+	var building_height = $WoodSprite.texture.get_size().y
 	var building_spacing_h = building_width * expansion_padding
-	var building_spacing_v = building_width * (expansion_padding / 2)
+	var building_spacing_v = building_height * expansion_padding
 	
 	var build_directions = [Vector2(building_spacing_h, 0), Vector2(-building_spacing_h, 0), Vector2(0, building_spacing_v), Vector2(0, -building_spacing_v)]
 	
@@ -38,6 +36,6 @@ func _expand():
 		var space_state = get_world_2d().direct_space_state
 		var result = space_state.intersect_ray(position, new_building.position, [self], 2147483647, false, true)
 		
-		if result.empty() or not result.collider.is_in_group("building"):
+		if result.empty():
 			get_parent().add_child(new_building)
 			return new_building
