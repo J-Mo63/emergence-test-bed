@@ -15,7 +15,9 @@ onready var anim_player = $AnimationPlayer
 onready var dude_range = $Range
 var item
 var has_building = false
+var has_upgrade = false
 var owned_depot
+var owned_building
 
 
 func _physics_process(_delta):
@@ -28,6 +30,8 @@ func _physics_process(_delta):
 func run_actions(flags = []):
 	if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
 		eat()
+	elif has_upgrade:
+		upgrade_building()
 	elif has_building:
 		create_building()
 	elif item:
@@ -35,10 +39,14 @@ func run_actions(flags = []):
 			deposit_items()
 		else:
 			create_depot()
-	elif owned_depot and owned_depot.full():
-		upgrade_depot()
+	elif owned_depot and owned_depot.full_rock():
+		gather_depot_rock()
+	elif owned_depot and owned_depot.full_wood():
+		gather_depot_wood()
+	elif owned_building and not owned_building.upgraded():
+		gather_items("quarry")
 	else:
-		gather_items()
+		gather_items("tree")
 
 
 func process_needs():
@@ -66,7 +74,7 @@ func create_building():
 	var buildings = get_tree().get_nodes_in_group("building")
 	var building = get_target_area("building")
 	if building:
-		building._expand()
+		owned_building = building._expand()
 		has_building = false
 	elif buildings.empty():
 		var building_scene = preload("res://scenes/entities/building.tscn")
@@ -74,8 +82,18 @@ func create_building():
 		new_building.position = position
 		get_parent().add_child(new_building)
 		has_building = false
+		owned_building = new_building
 	elif buildings:
 		set_target(get_closest(buildings))
+
+
+func upgrade_building():
+	var building = get_target_area("building")
+	if building:
+		building._upgrade()
+		has_upgrade = false
+	else:
+		set_target(owned_building)
 
 
 func create_depot():
@@ -95,10 +113,10 @@ func deposit_items():
 		set_target(owned_depot)
 
 
-func upgrade_depot():
+func gather_depot_wood():
 	var depot = get_target_area("depot")
 	if depot:
-		if depot._gather():
+		if depot._gather_wood():
 			has_building = true
 			owned_depot = null
 			var reporter = Reporter.new()
@@ -107,8 +125,18 @@ func upgrade_depot():
 		set_target(owned_depot)
 
 
-func gather_items():
-	var resource = get_target_area("resource")
+func gather_depot_rock():
+	var depot = get_target_area("depot")
+	if depot:
+		if depot._gather_rock():
+			has_upgrade = true
+			owned_depot = null
+	else:
+		set_target(owned_depot)
+
+
+func gather_items(type):
+	var resource = get_target_area(type)
 	if resource:
 		item = resource._gather()
 		if item:
@@ -117,7 +145,7 @@ func gather_items():
 			image_texture.set_flags(Texture.FLAG_FILTER)
 			$BodySprite/ItemSprite.texture = image_texture
 	else:
-		var resources = get_tree().get_nodes_in_group("resource")
+		var resources = get_tree().get_nodes_in_group(type)
 		if resources:
 			set_target(get_closest(resources))
 

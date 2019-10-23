@@ -8,6 +8,7 @@ radius = 9.89545
 
 [node name="Tree" type="Area2D" groups=[
 "resource",
+"tree",
 ]]
 script = ExtResource( 1 )
 
