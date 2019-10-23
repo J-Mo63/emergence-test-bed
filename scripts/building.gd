@@ -1,8 +1,20 @@
 extends Area2D
 
 export (float) var expansion_padding = 6
+var upgraded = false
 
-func _ready():
+func spawn_dude():
+	var new_dude = load("res://scenes/entities/dude.tscn").instance()
+	new_dude.position = position
+	get_parent().add_child(new_dude)
+
+func upgraded():
+	return upgraded
+
+func _upgrade():
+	upgraded = true
+	$StoneSprite.visible = true
+	$WoodSprite.visible = false
 	var timer = Timer.new()
 	timer.one_shot = true
 	timer.connect("timeout", self, "spawn_dude")
@@ -10,16 +22,11 @@ func _ready():
 	timer.start()
 	add_child(timer)
 
-func spawn_dude():
-	var new_dude = load("res://scenes/entities/dude.tscn").instance()
-	new_dude.position = position
-	get_parent().add_child(new_dude)
-
 func _expand():
 	var building_scene = load("res://scenes/entities/building.tscn")
 	var new_building = building_scene.instance()
 	new_building.position = position
-	var building_width = $Sprite.texture.get_size().x
+	var building_width = $WoodSprite.texture.get_size().x
 	var building_spacing_h = building_width * expansion_padding
 	var building_spacing_v = building_width * (expansion_padding / 2)
 	
@@ -33,4 +40,4 @@ func _expand():
 		
 		if result.empty() or not result.collider.is_in_group("building"):
 			get_parent().add_child(new_building)
-			break
+			return new_building
