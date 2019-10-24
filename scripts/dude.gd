@@ -13,6 +13,7 @@ onready var target = self
 onready var target_position = position
 onready var anim_player = $AnimationPlayer
 onready var dude_range = $Range
+onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
 var item
 var has_building = false
 var has_upgrade = false
@@ -28,25 +29,33 @@ func _physics_process(_delta):
 
 
 func run_actions(flags = []):
-	if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
-		eat()
-	elif has_upgrade:
-		upgrade_building()
-	elif has_building:
-		create_building()
-	elif item:
-		if owned_depot:
-			deposit_items()
+	if owned_building and day_night_cycle.is_night:
+		if hunger < (max_hunger/4) and not flags.has(States.NO_FOOD):
+			visible = true
+			eat()
 		else:
-			create_depot()
-	elif owned_depot and owned_depot.full_rock():
-		gather_depot_rock()
-	elif owned_depot and owned_depot.full_wood():
-		gather_depot_wood()
-	elif owned_building and not owned_building.upgraded:
-		gather_items("quarry")
+			go_home()
 	else:
-		gather_items("tree")
+		visible = true
+		if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
+			eat()
+		elif has_upgrade:
+			upgrade_building()
+		elif has_building:
+			create_building()
+		elif item:
+			if owned_depot:
+				deposit_items()
+			else:
+				create_depot()
+		elif owned_depot and owned_depot.full_rock():
+			gather_depot_rock()
+		elif owned_depot and owned_depot.full_wood():
+			gather_depot_wood()
+		elif owned_building and not owned_building.upgraded:
+			gather_items("quarry")
+		else:
+			gather_items("tree")
 
 
 func process_needs():
@@ -70,6 +79,14 @@ func eat():
 			run_actions([States.NO_FOOD])
 
 
+func go_home():
+	var building = get_target_area("building")
+	if building and building == owned_building:
+		visible = false
+	else:
+		set_target(owned_building)
+
+
 func create_building():
 	var buildings = get_tree().get_nodes_in_group("building")
 	var building = get_target_area("building")
@@ -90,7 +107,7 @@ func create_building():
 
 func upgrade_building():
 	var building = get_target_area("building")
-	if building:
+	if building and building == owned_building:
 		building._upgrade()
 		has_upgrade = false
 	else:
