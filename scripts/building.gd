@@ -1,7 +1,18 @@
 extends Area2D
 
 export (float) var expansion_padding = 6
+export (int) var health = 3000
 var upgraded = false
+var owning_dude
+
+func _physics_process(delta):
+	if not is_instance_valid(owning_dude):
+		health = health - 1
+	if health < 1500:
+		print("breaking down")
+	if health <= 0:
+		queue_free()
+		print("gone")
 
 func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()
@@ -19,10 +30,11 @@ func _upgrade():
 	timer.start()
 	add_child(timer)
 
-func _expand():
+func _expand(owner_dude):
 	var building_scene = load("res://scenes/entities/building.tscn")
 	var new_building = building_scene.instance()
 	new_building.position = position
+	new_building.owning_dude = owner_dude
 	var building_width = $WoodSprite.texture.get_size().x
 	var building_height = $WoodSprite.texture.get_size().y
 	var building_spacing_h = building_width * expansion_padding
