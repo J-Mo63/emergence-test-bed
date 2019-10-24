@@ -8,11 +8,9 @@ var owning_dude
 func _physics_process(delta):
 	if not is_instance_valid(owning_dude):
 		health = health - 1
-	if health < 1500:
-		print("breaking down")
+		$DestructionSprite.visible = true
 	if health <= 0:
 		queue_free()
-		print("gone")
 
 func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()
