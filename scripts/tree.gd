@@ -27,7 +27,7 @@ func _on_timer_timeout():
 	tree_instance.position = position + plant_dir
 	
 	var space_state = get_world_2d().direct_space_state
-	var result = space_state.intersect_ray(position, tree_instance.position, [], 2147483647, false, true)
+	var result = space_state.intersect_ray(position, tree_instance.position, [], 2147483647, true, true)
 	
 	if result.empty():
 		get_parent().add_child(tree_instance)

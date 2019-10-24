@@ -46,7 +46,7 @@ func _expand(owner_dude):
 		new_building.position = position + direction
 		
 		var space_state = get_world_2d().direct_space_state
-		var result = space_state.intersect_ray(position, new_building.position, [self], 2147483647, false, true)
+		var result = space_state.intersect_ray(position, new_building.position, [self], 2147483647, true, true)
 		
 		if result.empty():
 			get_parent().add_child(new_building)
