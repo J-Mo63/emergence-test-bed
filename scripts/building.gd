@@ -2,15 +2,28 @@ extends Area2D
 
 export (float) var expansion_padding = 6
 export (int) var health = 3000
+onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
 var upgraded = false
 var owning_dude
 
 func _physics_process(delta):
-	if not is_instance_valid(owning_dude):
+	if is_instance_valid(owning_dude):
+		if day_night_cycle.is_night and overlaps_body(owning_dude):
+			set_occupation(true)
+		else:
+			set_occupation(false)
+	else:
 		health = health - 1
 		$DestructionSprite.visible = true
+	
 	if health <= 0:
 		queue_free()
+
+func set_occupation(occupied):
+	owning_dude.visible = not occupied
+	owning_dude.set_process(not occupied)
+	owning_dude.set_physics_process(not occupied)
+	$Lights.visible = occupied
 
 func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()

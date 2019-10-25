@@ -30,11 +30,7 @@ func _physics_process(_delta):
 
 func run_actions(flags = []):
 	if owned_building and day_night_cycle.is_night:
-		if hunger < (max_hunger/4) and not flags.has(States.NO_FOOD):
-			visible = true
-			eat()
-		else:
-			go_home()
+		go_home()
 	else:
 		visible = true
 		if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
@@ -80,11 +76,7 @@ func eat():
 
 
 func go_home():
-	var building = get_target_area("building")
-	if building and building == owned_building:
-		visible = false
-	else:
-		set_target(owned_building)
+	set_target(owned_building)
 
 
 func create_building():
