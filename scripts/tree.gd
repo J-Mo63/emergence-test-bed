@@ -12,22 +12,24 @@ func _ready():
 func _on_timer_timeout():
 	var tree_instance = tree_scene.instance()
 	var tree_width = $Sprite.texture.get_size().x
+	var tree_height = $Sprite.texture.get_size().y
 	var plant_dir = Vector2()
-	var plant_spacing = tree_width * offspring_padding
+	var plant_spacing_x = tree_width * offspring_padding
+	var plant_spacing_y = tree_height * offspring_padding
 	match randi()%4:
 		0:
-			plant_dir = Vector2(0, -plant_spacing)
+			plant_dir = Vector2(0, -plant_spacing_y)
 		1:
-			plant_dir = Vector2(-plant_spacing, 0)
+			plant_dir = Vector2(-plant_spacing_x, 0)
 		2:
-			plant_dir = Vector2(0, plant_spacing)
+			plant_dir = Vector2(0, plant_spacing_y)
 		3:
-			plant_dir = Vector2(plant_spacing, 0)
+			plant_dir = Vector2(plant_spacing_x, 0)
 	
 	tree_instance.position = position + plant_dir
 	
 	var space_state = get_world_2d().direct_space_state
-	var result = space_state.intersect_ray(position, tree_instance.position, [], 2147483647, true, true)
+	var result = space_state.intersect_ray(position, tree_instance.position, [self], 2147483647, true, true)
 	
 	if result.empty():
 		get_parent().add_child(tree_instance)

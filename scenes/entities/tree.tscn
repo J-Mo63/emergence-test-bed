@@ -3,8 +3,8 @@
 [ext_resource path="res://scripts/tree.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/tree.png" type="Texture" id=2]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 9.89545
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 21.1086, 18.5104 )
 
 [node name="Tree" type="Area2D" groups=[
 "resource",
@@ -13,7 +13,7 @@ radius = 9.89545
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 2.23001, -0.0982952 )
+position = Vector2( 1.43763, -15.2256 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -22,5 +22,5 @@ scale = Vector2( 5, 5 )
 texture = ExtResource( 2 )
 
 [node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 6.0
 autostart = true
