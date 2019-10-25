@@ -1,12 +1,13 @@
 extends Area2D
 
-export var upgrade_level = 100
+export var max_health = 100
 export var item_scatter = 30
+onready var health = max_health
+var mark_for_free = false
 var items = {}
-var depot_level = 0
-
 
 func _deposit(item):
+	print("deposit contents: " + str(items))
 	if items.has(item):
 		items[item] = items.get(item) + 1
 	else:
@@ -23,11 +24,9 @@ func _deposit(item):
 
 
 func _gather_wood(amount):
-	depot_level += 1
-	if depot_level >= upgrade_level:
+	health -= 1
+	if health <= 0:
 		items["wood"] = items.get("wood") - amount
-		$Sprite.visible = true
-		
 		var removed = 0
 		for child in get_children():
 			if child is Sprite and child.is_in_group("resource_sprite_wood"):
@@ -35,16 +34,16 @@ func _gather_wood(amount):
 				removed += 1
 				if removed >= amount:
 					break
-		queue_free()
-		return true
-	return false
+		if empty():
+			mark_for_free = true
+			return "gone"
+		health = max_health
+		return "not gone"
 
 func _gather_rock(amount):
-	depot_level += 1
-	if depot_level >= upgrade_level:
+	health -= 1
+	if health <= 0:
 		items["rock"] = items.get("rock") - amount
-		$Sprite.visible = true
-		
 		var removed = 0
 		for child in get_children():
 			if child is Sprite and child.is_in_group("resource_sprite_rock"):
@@ -52,14 +51,20 @@ func _gather_rock(amount):
 				removed += 1
 				if removed >= amount:
 					break
-		queue_free()
-		return true
-	return false
+		if empty():
+			mark_for_free = true
+			return "gone"
+		health = max_health
+		return "not gone"
+
+func empty():
+	for amount in items.values():
+		if amount > 0:
+			return false
+	return true
 
 func full_wood(amount):
-	if depot_level < upgrade_level:
-		return items.get("wood") and items.get("wood") >= amount
+	return items.get("wood") and items.get("wood") >= amount
 
 func full_rock(amount):
-	if depot_level < upgrade_level:
-		return items.get("rock") and items.get("rock") >= amount
+	return items.get("rock") and items.get("rock") >= amount

@@ -21,18 +21,27 @@ var has_fix = false
 var owned_depot
 var owned_building
 
-
 func _physics_process(_delta):
+	remove_dead_refs()
 	process_needs()
 	run_actions()
 	move()
 	play_animation()
 
 
+func remove_dead_refs():
+	if owned_depot and owned_depot.mark_for_free:
+		owned_depot.queue_free()
+		owned_depot = null
+	if owned_building and owned_building.mark_for_free:
+		owned_building.queue_free()
+		owned_building = null
+
+
 func run_actions(flags = []):
 	if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
 		eat()
-	elif is_instance_valid(owned_building) and owned_building:
+	elif owned_building:
 		if day_night_cycle.is_night:
 			go_home()
 		elif owned_building.needs_fix():
@@ -121,13 +130,15 @@ func create_building():
 		get_parent().add_child(new_building)
 		has_building = false
 		owned_building = new_building
-		new_building.connect("building_destroyed", self, "clear_ownership")
+		new_building.connect("building_destroyed", self, "clear_building_ownership")
 	elif buildings:
 		set_target(get_closest(buildings))
 
-func clear_ownership():
-	print("clearing ownership")
+func clear_building_ownership():
 	owned_building = null
+
+func clear_depot_ownership():
+	owned_depot = null
 
 func upgrade_building():
 	var building = get_target_area("building")
@@ -142,6 +153,7 @@ func create_depot():
 	var depot_scene = preload("res://scenes/entities/depot.tscn")
 	owned_depot = depot_scene.instance()
 	owned_depot.position = position
+	owned_depot.connect("depot_destroyed", self, "clear_depot_ownership")
 	get_parent().add_child(owned_depot)
 
 
@@ -158,12 +170,14 @@ func deposit_items():
 func gather_depot_wood(amount):
 	var depot = get_target_area("depot")
 	if depot:
-		if depot._gather_wood(amount):
+		var result = depot._gather_wood(amount)
+		if result:
 			if amount == 10:
 				has_fix = true
 			elif amount == 5:
 				has_building = true
-			owned_depot = null
+			if result == "gone":
+				owned_depot = null
 			var reporter = Reporter.new()
 			reporter.report_event("boy howdy")
 	else:
@@ -173,9 +187,11 @@ func gather_depot_wood(amount):
 func gather_depot_rock(amount):
 	var depot = get_target_area("depot")
 	if depot:
-		if depot._gather_rock(amount):
+		var result = depot._gather_rock(amount)
+		if result:
 			has_upgrade = true
-			owned_depot = null
+			if result == "gone":
+				owned_depot = null
 	else:
 		set_target(owned_depot)
 
