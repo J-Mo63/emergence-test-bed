@@ -1,29 +1,29 @@
 extends Area2D
 
 export (float) var expansion_padding = 6
-export (int) var health = 3000
+export (int) var max_health = 5000
 onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
+onready var health = max_health
 var upgraded = false
-var owning_dude
 
 func _physics_process(delta):
-	if is_instance_valid(owning_dude):
-		if day_night_cycle.is_night and overlaps_body(owning_dude):
-			set_occupation(true)
-		else:
-			set_occupation(false)
-	else:
-		health = health - 1
-		$DestructionSprite.visible = true
-	
+	#if day_night_cycle.is_night and overlaps_body(owning_dude):
+			#set_occupation(true)
+		#else:
+			#set_occupation(false)
 	if health <= 0:
 		queue_free()
+	elif health < max_health/4:
+		$Destruction2Sprite.visible = true
+	elif health < max_health/2:
+		$Destruction1Sprite.visible = true
+	health = health - 1
 
-func set_occupation(occupied):
-	owning_dude.visible = not occupied
-	owning_dude.set_process(not occupied)
-	owning_dude.set_physics_process(not occupied)
-	$Lights.visible = occupied
+#func set_occupation(occupied):
+	#owning_dude.visible = not occupied
+	#owning_dude.set_process(not occupied)
+	#owning_dude.set_physics_process(not occupied)
+	#$Lights.visible = occupied
 
 func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()
@@ -45,7 +45,6 @@ func _expand(owner_dude):
 	var building_scene = load("res://scenes/entities/building.tscn")
 	var new_building = building_scene.instance()
 	new_building.position = position
-	new_building.owning_dude = owner_dude
 	var building_width = $WoodSprite.texture.get_size().x
 	var building_height = $WoodSprite.texture.get_size().y
 	var building_spacing_h = building_width * expansion_padding

@@ -89,7 +89,6 @@ func create_building():
 		var building_scene = preload("res://scenes/entities/building.tscn")
 		var new_building = building_scene.instance()
 		new_building.position = position
-		new_building.owning_dude = self
 		get_parent().add_child(new_building)
 		has_building = false
 		owned_building = new_building

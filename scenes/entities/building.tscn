@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/building.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/destruction.png" type="Texture" id=2]
-[ext_resource path="res://assets/sprites/house_lights.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/destruction1.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/desruction2.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/house_lights.png" type="Texture" id=4]
 
 [sub_resource type="Image" id=6]
 data = {
@@ -51,16 +52,22 @@ visible = false
 scale = Vector2( 5, 5 )
 texture = SubResource( 4 )
 
-[node name="DestructionSprite" type="Sprite" parent="."]
+[node name="Destruction1Sprite" type="Sprite" parent="."]
 visible = false
 scale = Vector2( 5, 5 )
 texture = ExtResource( 2 )
 
-[node name="Lights" type="Sprite" parent="."]
+[node name="Destruction2Sprite" type="Sprite" parent="."]
 visible = false
 scale = Vector2( 5, 5 )
 texture = ExtResource( 3 )
 
+[node name="Lights" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 5, 5 )
+texture = ExtResource( 4 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0.187012, 0.187012 )
 shape = SubResource( 5 )
