@@ -32,22 +32,33 @@ func _physics_process(_delta):
 func run_actions(flags = []):
 	if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
 		eat()
-	elif owned_building:
+	elif is_instance_valid(owned_building) and owned_building:
 		if day_night_cycle.is_night:
 			go_home()
-		elif has_fix:
-			fix_building()
-		elif item:
-			if owned_depot:
-				deposit_items()
+		elif owned_building.needs_fix():
+			if has_fix:
+				fix_building()
+			elif item:
+				if owned_depot:
+					deposit_items()
+				else:
+					create_depot()
+			elif owned_depot and owned_depot.full_wood(10):
+				gather_depot_wood(10)
 			else:
-				create_depot()
-		elif owned_depot and owned_depot.full_wood(10):
-			gather_depot_wood(10)
-		else:
-			gather_items("tree")
-	elif has_upgrade:
-		upgrade_building()
+				gather_items("tree")
+		elif not owned_building.upgraded:
+			if has_upgrade:
+				upgrade_building()
+			elif item:
+				if owned_depot:
+					deposit_items()
+				else:
+					create_depot()
+			elif owned_depot and owned_depot.full_rock(5):
+				gather_depot_rock(5)
+			else:
+				gather_items("quarry")
 	elif has_building:
 		create_building()
 	elif item:
@@ -55,12 +66,8 @@ func run_actions(flags = []):
 			deposit_items()
 		else:
 			create_depot()
-	elif owned_depot and owned_depot.full_rock(5):
-		gather_depot_rock(5)
 	elif owned_depot and owned_depot.full_wood(5):
 		gather_depot_wood(5)
-	elif owned_building and not owned_building.upgraded:
-		gather_items("quarry")
 	else:
 		gather_items("tree")
 
@@ -119,6 +126,7 @@ func create_building():
 		set_target(get_closest(buildings))
 
 func clear_ownership():
+	print("clearing ownership")
 	owned_building = null
 
 func upgrade_building():

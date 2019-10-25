@@ -48,6 +48,9 @@ func spawn_dude():
 func _fix():
 	health = max_health
 
+func needs_fix():
+	return health < max_health/2
+
 func _upgrade():
 	upgraded = true
 	$StoneSprite.visible = true
