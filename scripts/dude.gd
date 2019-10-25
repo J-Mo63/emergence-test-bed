@@ -1,29 +1,34 @@
 extends KinematicBody2D
 
-# Public fields
+# Enums
+enum States {NO_FOOD}
+
+# Export fields
 export (int) var speed = 100
 export (int) var max_hunger = 5000
 export (int) var lifespan = 10000
 
-# Private fields
-enum States {NO_FOOD}
-
+# Onready fields
 onready var target = self
 onready var target_position = position
 onready var anim_player = $AnimationPlayer
 onready var dude_range = $Range
 onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
 
+# Misc fields
 var velocity = Vector2()
 var item
 var hunger = max_hunger
 
+# Ownership fields
+var owned_depot
+var owned_building
+
+# Building fields
 var has_building = false
 var has_upgrade = false
 var has_fix = false
 
-var owned_depot
-var owned_building
 
 func _physics_process(_delta):
 	remove_dead_refs()
