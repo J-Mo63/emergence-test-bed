@@ -7,17 +7,21 @@ export (int) var lifespan = 10000
 
 # Private fields
 enum States {NO_FOOD}
-var hunger = max_hunger
-var velocity = Vector2()
+
 onready var target = self
 onready var target_position = position
 onready var anim_player = $AnimationPlayer
 onready var dude_range = $Range
 onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
+
+var velocity = Vector2()
 var item
+var hunger = max_hunger
+
 var has_building = false
 var has_upgrade = false
 var has_fix = false
+
 var owned_depot
 var owned_building
 
