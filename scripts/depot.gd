@@ -22,10 +22,10 @@ func _deposit(item):
 	add_child(item_sprite)
 
 
-func _gather_wood():
+func _gather_wood(amount):
 	depot_level += 1
 	if depot_level >= upgrade_level:
-		items["wood"] = items.get("wood") - 5
+		items["wood"] = items.get("wood") - amount
 		$Sprite.visible = true
 		
 		var removed = 0
@@ -33,16 +33,16 @@ func _gather_wood():
 			if child is Sprite and child.is_in_group("resource_sprite_wood"):
 				child.queue_free()
 				removed += 1
-				if removed >= 5:
+				if removed >= amount:
 					break
 		queue_free()
 		return true
 	return false
 
-func _gather_rock():
+func _gather_rock(amount):
 	depot_level += 1
 	if depot_level >= upgrade_level:
-		items["rock"] = items.get("rock") - 5
+		items["rock"] = items.get("rock") - amount
 		$Sprite.visible = true
 		
 		var removed = 0
@@ -50,17 +50,16 @@ func _gather_rock():
 			if child is Sprite and child.is_in_group("resource_sprite_rock"):
 				child.queue_free()
 				removed += 1
-				if removed >= 5:
+				if removed >= amount:
 					break
 		queue_free()
 		return true
 	return false
 
-
-func full_wood():
+func full_wood(amount):
 	if depot_level < upgrade_level:
-		return items.get("wood") and items.get("wood") >= 5
+		return items.get("wood") and items.get("wood") >= amount
 
-func full_rock():
+func full_rock(amount):
 	if depot_level < upgrade_level:
-		return items.get("rock") and items.get("rock") >= 5
+		return items.get("rock") and items.get("rock") >= amount
