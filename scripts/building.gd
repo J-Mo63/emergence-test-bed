@@ -24,6 +24,10 @@ func _physics_process(delta):
 		$Destruction2Sprite.visible = true
 	elif health < max_health/2:
 		$Destruction1Sprite.visible = true
+	else:
+		$Destruction2Sprite.visible = false
+		$Destruction1Sprite.visible = false
+	
 	health = health - 1
 
 func _enter(dude):
@@ -40,6 +44,9 @@ func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()
 	new_dude.position = position
 	get_parent().add_child(new_dude)
+
+func _fix():
+	health = max_health
 
 func _upgrade():
 	upgraded = true

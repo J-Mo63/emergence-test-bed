@@ -17,6 +17,7 @@ onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
 var item
 var has_building = false
 var has_upgrade = false
+var has_fix = false
 var owned_depot
 var owned_building
 
@@ -29,29 +30,39 @@ func _physics_process(_delta):
 
 
 func run_actions(flags = []):
-	if owned_building and day_night_cycle.is_night:
-		go_home()
-	else:
-		visible = true
-		if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
-			eat()
-		elif has_upgrade:
-			upgrade_building()
-		elif has_building:
-			create_building()
+	if hunger < (max_hunger/2) and not flags.has(States.NO_FOOD):
+		eat()
+	elif owned_building:
+		if day_night_cycle.is_night:
+			go_home()
+		elif has_fix:
+			fix_building()
 		elif item:
 			if owned_depot:
 				deposit_items()
 			else:
 				create_depot()
-		elif owned_depot and owned_depot.full_rock():
-			gather_depot_rock()
-		elif owned_depot and owned_depot.full_wood():
-			gather_depot_wood()
-		elif owned_building and not owned_building.upgraded:
-			gather_items("quarry")
+		elif owned_depot and owned_depot.full_wood(10):
+			gather_depot_wood(10)
 		else:
 			gather_items("tree")
+	elif has_upgrade:
+		upgrade_building()
+	elif has_building:
+		create_building()
+	elif item:
+		if owned_depot:
+			deposit_items()
+		else:
+			create_depot()
+	elif owned_depot and owned_depot.full_rock(5):
+		gather_depot_rock(5)
+	elif owned_depot and owned_depot.full_wood(5):
+		gather_depot_wood(5)
+	elif owned_building and not owned_building.upgraded:
+		gather_items("quarry")
+	else:
+		gather_items("tree")
 
 
 func process_needs():
@@ -82,6 +93,13 @@ func go_home():
 	else:
 		set_target(owned_building)
 
+func fix_building():
+	var building = get_target_area("building")
+	if building and building == owned_building:
+		building._fix()
+		has_fix = false
+	else:
+		set_target(owned_building)
 
 func create_building():
 	var buildings = get_tree().get_nodes_in_group("building")
@@ -129,11 +147,14 @@ func deposit_items():
 		set_target(owned_depot)
 
 
-func gather_depot_wood():
+func gather_depot_wood(amount):
 	var depot = get_target_area("depot")
 	if depot:
-		if depot._gather_wood():
-			has_building = true
+		if depot._gather_wood(amount):
+			if amount == 10:
+				has_fix = true
+			elif amount == 5:
+				has_building = true
 			owned_depot = null
 			var reporter = Reporter.new()
 			reporter.report_event("boy howdy")
@@ -141,10 +162,10 @@ func gather_depot_wood():
 		set_target(owned_depot)
 
 
-func gather_depot_rock():
+func gather_depot_rock(amount):
 	var depot = get_target_area("depot")
 	if depot:
-		if depot._gather_rock():
+		if depot._gather_rock(amount):
 			has_upgrade = true
 			owned_depot = null
 	else:
