@@ -31,10 +31,19 @@ func _physics_process(_delta):
 
 func remove_dead_refs():
 	if owned_depot and owned_depot.mark_for_free:
-		owned_depot.queue_free()
+		owned_depot.free_permitted = true
 		owned_depot = null
 	if owned_building and owned_building.mark_for_free:
-		owned_building.queue_free()
+		owned_building.free_permitted = true
+		owned_building = null
+
+
+func drop_all_refs():
+	if owned_depot:
+		owned_depot.free_permitted = true
+		owned_depot = null
+	if owned_building:
+		owned_building.free_permitted = true
 		owned_building = null
 
 
@@ -85,6 +94,7 @@ func process_needs():
 	hunger -= 1
 	lifespan -= 1
 	if hunger <= 0 or lifespan <= 0:
+		drop_all_refs()
 		queue_free()
 
 
@@ -130,7 +140,6 @@ func create_building():
 		get_parent().add_child(new_building)
 		has_building = false
 		owned_building = new_building
-		new_building.connect("building_destroyed", self, "clear_building_ownership")
 	elif buildings:
 		set_target(get_closest(buildings))
 
@@ -153,7 +162,6 @@ func create_depot():
 	var depot_scene = preload("res://scenes/entities/depot.tscn")
 	owned_depot = depot_scene.instance()
 	owned_depot.position = position
-	owned_depot.connect("depot_destroyed", self, "clear_depot_ownership")
 	get_parent().add_child(owned_depot)
 
 

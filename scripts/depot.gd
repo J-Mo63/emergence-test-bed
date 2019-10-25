@@ -4,7 +4,12 @@ export var max_health = 100
 export var item_scatter = 30
 onready var health = max_health
 var mark_for_free = false
+var free_permitted = false
 var items = {}
+
+func _physics_process(delta):
+	if mark_for_free and free_permitted:
+		queue_free()
 
 func _deposit(item):
 	print("deposit contents: " + str(items))

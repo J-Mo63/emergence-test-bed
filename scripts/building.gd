@@ -7,8 +7,12 @@ onready var health = max_health
 var upgraded = false
 var current_occupant = null
 var mark_for_free = false
+var free_permitted = false
 
 func _physics_process(delta):
+	if mark_for_free and free_permitted:
+		queue_free()
+	
 	if not day_night_cycle.is_night and current_occupant:
 		set_occupation(false, current_occupant)
 		current_occupant = null
