@@ -76,7 +76,11 @@ func eat():
 
 
 func go_home():
-	set_target(owned_building)
+	var building = get_target_area("building")
+	if building and building == owned_building:
+		building._enter(self)
+	else:
+		set_target(owned_building)
 
 
 func create_building():
@@ -92,9 +96,12 @@ func create_building():
 		get_parent().add_child(new_building)
 		has_building = false
 		owned_building = new_building
+		new_building.connect("building_destroyed", self, "clear_ownership")
 	elif buildings:
 		set_target(get_closest(buildings))
 
+func clear_ownership():
+	owned_building = null
 
 func upgrade_building():
 	var building = get_target_area("building")

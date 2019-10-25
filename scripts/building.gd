@@ -5,13 +5,20 @@ export (int) var max_health = 5000
 onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
 onready var health = max_health
 var upgraded = false
+var current_occupant = null
+
+signal building_destroyed
 
 func _physics_process(delta):
-	#if day_night_cycle.is_night and overlaps_body(owning_dude):
-			#set_occupation(true)
-		#else:
-			#set_occupation(false)
+	if not day_night_cycle.is_night and current_occupant:
+		set_occupation(false, current_occupant)
+		current_occupant = null
+	
 	if health <= 0:
+		if current_occupant:
+			set_occupation(false, current_occupant)
+			current_occupant = null
+		emit_signal("building_destroyed")
 		queue_free()
 	elif health < max_health/4:
 		$Destruction2Sprite.visible = true
@@ -19,11 +26,15 @@ func _physics_process(delta):
 		$Destruction1Sprite.visible = true
 	health = health - 1
 
-#func set_occupation(occupied):
-	#owning_dude.visible = not occupied
-	#owning_dude.set_process(not occupied)
-	#owning_dude.set_physics_process(not occupied)
-	#$Lights.visible = occupied
+func _enter(dude):
+	current_occupant = dude
+	set_occupation(true, dude)
+
+func set_occupation(occupied, occupant):
+	occupant.visible = not occupied
+	occupant.set_process(not occupied)
+	occupant.set_physics_process(not occupied)
+	$Lights.visible = occupied
 
 func spawn_dude():
 	var new_dude = load("res://scenes/entities/dude.tscn").instance()
