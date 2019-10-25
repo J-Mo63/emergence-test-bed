@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 # Public fields
 export (int) var speed = 100
-export (int) var max_hunger = 3000
+export (int) var max_hunger = 5000
 export (int) var lifespan = 10000
 
 # Private fields
@@ -101,9 +101,8 @@ func process_needs():
 func eat():
 	var food = get_target_area("food")
 	if food:
-		var food_value = food._gather()
-		if food_value:
-			hunger += food_value
+		if food._gather():
+			hunger = max_hunger
 	else:
 		var foods = get_tree().get_nodes_in_group("food")
 		if foods:

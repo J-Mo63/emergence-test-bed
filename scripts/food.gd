@@ -10,7 +10,7 @@ func _gather():
 	health -= 1
 	if health == 0:
 		queue_free()
-		return 1000
+		return true
 
 func spawn():
 	var plant_instance = load("res://scenes/entities/plant.tscn").instance()
