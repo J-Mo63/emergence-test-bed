@@ -41,6 +41,10 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 522.912, 298.342 )
 current = true
+limit_left = -500
+limit_top = -500
+limit_right = 1500
+limit_bottom = 1000
 smoothing_enabled = true
 script = ExtResource( 1 )
 
