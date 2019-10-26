@@ -64,7 +64,7 @@ func _upgrade():
 	timer.start()
 	add_child(timer)
 
-func _expand(owner_dude):
+func _expand():
 	var building_scene = load("res://scenes/entities/building.tscn")
 	var new_building = building_scene.instance()
 	new_building.position = position
@@ -79,7 +79,7 @@ func _expand(owner_dude):
 		new_building.position = position + direction
 		
 		var space_state = get_world_2d().direct_space_state
-		var result = space_state.intersect_ray(position, new_building.position, [self], 2147483647, true, true)
+		var result = space_state.intersect_ray(position, new_building.position, [self], collision_mask, true, true)
 		
 		if result.empty():
 			get_parent().add_child(new_building)

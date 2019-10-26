@@ -65,6 +65,7 @@ click={
 2d_physics/layer_5="Plants"
 2d_physics/layer_6="Food"
 2d_physics/layer_7="Quarries"
+2d_physics/layer_8="Tiles"
 
 [rendering]
 
