@@ -7,6 +7,7 @@ export (int) var speed = 80
 onready var target = self
 onready var target_position = position
 onready var anim_player = $AnimationPlayer
+onready var wraith_range = $Range
 
 # Misc fields
 var velocity = Vector2()
@@ -23,6 +24,10 @@ func run_actions():
 		print("Wraith is sad and lonely")
 	else:
 		set_target(get_closest(dudes))
+		var bodies = wraith_range.get_overlapping_bodies()
+		for body in bodies:
+			if body.is_in_group("active_dude"):
+				body.lifespan = 0
 
 
 func get_closest(values):
