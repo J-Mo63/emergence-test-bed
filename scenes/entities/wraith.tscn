@@ -153,7 +153,8 @@ tracks/2/keys = {
 }
 
 [sub_resource type="CapsuleShape2D" id=6]
-height = 13.1621
+radius = 15.6097
+height = 9.12897
 
 [node name="Wraith" type="KinematicBody2D" groups=[
 "wraith",
@@ -181,5 +182,5 @@ anims/rest = SubResource( 4 )
 [node name="Range" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
-position = Vector2( 0.235615, 2.17946 )
+position = Vector2( -0.647949, 4.77124 )
 shape = SubResource( 6 )

@@ -37,6 +37,7 @@ func wander():
 		if new_loc.x > -250 and new_loc.x < 1250 and new_loc.y > -250 and new_loc.y < 750:
 			target_position = new_loc
 
+
 func get_closest(values):
 	var closest_value = values[0]
 	for value in values:
@@ -58,6 +59,7 @@ func move():
 
 
 func play_animation():
+	visible = day_night_cycle.is_night
 	var play_anim
 	if velocity.x == 0 and velocity.y == 0:
 		play_anim = "rest"
