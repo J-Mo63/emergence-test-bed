@@ -501,6 +501,7 @@ tracks/3/keys = {
 radius = 40.444
 
 [node name="Dude" type="KinematicBody2D" groups=[
+"active_dude",
 "dude",
 ]]
 z_index = 1

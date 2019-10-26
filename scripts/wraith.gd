@@ -17,9 +17,12 @@ func _physics_process(_delta):
 	play_animation()
 
 
-func run_actions(flags = []):
-	var dudes = get_tree().get_nodes_in_group("dude")
-	set_target(get_closest(dudes))
+func run_actions():
+	var dudes = get_tree().get_nodes_in_group("active_dude")
+	if dudes.empty():
+		print("Wraith is sad and lonely")
+	else:
+		set_target(get_closest(dudes))
 
 
 func get_closest(values):

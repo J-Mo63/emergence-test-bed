@@ -12,7 +12,6 @@ func _physics_process(delta):
 		queue_free()
 
 func _deposit(item):
-	print("deposit contents: " + str(items))
 	if items.has(item):
 		items[item] = items.get(item) + 1
 	else:

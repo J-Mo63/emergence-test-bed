@@ -15,11 +15,13 @@ func _physics_process(delta):
 	
 	if not day_night_cycle.is_night and current_occupant:
 		set_occupation(false, current_occupant)
+		current_occupant.add_to_group("active_dude")
 		current_occupant = null
 	
 	if health <= 0:
 		if current_occupant:
 			set_occupation(false, current_occupant)
+			current_occupant.add_to_group("active_dude")
 			current_occupant = null
 		mark_for_free = true
 	elif health < max_health/4:
@@ -34,6 +36,7 @@ func _physics_process(delta):
 
 func _enter(dude):
 	current_occupant = dude
+	current_occupant.remove_from_group("active_dude")
 	set_occupation(true, dude)
 
 func set_occupation(occupied, occupant):
