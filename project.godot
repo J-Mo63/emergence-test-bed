@@ -58,9 +58,13 @@ click={
 
 [layer_names]
 
-2d_physics/layer_1="Entities"
-2d_physics/layer_2="Resources"
-2d_physics/layer_3="Buildings"
+2d_physics/layer_1="Dudes"
+2d_physics/layer_2="Buildings"
+2d_physics/layer_3="Depots"
+2d_physics/layer_4="Trees"
+2d_physics/layer_5="Plants"
+2d_physics/layer_6="Food"
+2d_physics/layer_7="Quarries"
 
 [rendering]
 
