@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/camera.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilemaps/grasstilemap.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scenes/entities/dude.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/entities/plant.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/entities/quarry.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/entities/wraith.tscn" type="PackedScene" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -63,7 +64,7 @@ __meta__ = {
 
 [node name="DayNightCycle" type="Sprite" parent="."]
 visible = false
-position = Vector2( 520.012, 299.861 )
+position = Vector2( 519.9, 299.861 )
 scale = Vector2( 1680.3, 1240.22 )
 texture = ExtResource( 3 )
 script = ExtResource( 4 )
@@ -93,6 +94,9 @@ position = Vector2( 497.223, 261.275 )
 
 [node name="Quarry" parent="YSort" instance=ExtResource( 8 )]
 position = Vector2( 1013.42, -42.6389 )
+
+[node name="Wraith" parent="YSort" instance=ExtResource( 9 )]
+position = Vector2( 303.653, 173.955 )
 
 [node name="Quarry2" parent="YSort" instance=ExtResource( 8 )]
 position = Vector2( 33.6686, 601.685 )
