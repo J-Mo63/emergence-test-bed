@@ -7,6 +7,7 @@ export (int) var speed = 80
 onready var target_position = position
 onready var anim_player = $AnimationPlayer
 onready var wraith_range = $Range
+onready var day_night_cycle = get_node("/root/Node2D/DayNightCycle")
 
 # Misc fields
 var velocity = Vector2()
@@ -19,14 +20,14 @@ func _physics_process(_delta):
 
 func run_actions():
 	var dudes = get_tree().get_nodes_in_group("active_dude")
-	if dudes.empty():
-		wander()
-	else:
+	if day_night_cycle.is_night and not dudes.empty():
 		target_position = get_closest(dudes).global_position
 		var bodies = wraith_range.get_overlapping_bodies()
 		for body in bodies:
 			if body.is_in_group("active_dude"):
 				body.lifespan = 0
+	else:
+		wander()
 
 
 func wander():
