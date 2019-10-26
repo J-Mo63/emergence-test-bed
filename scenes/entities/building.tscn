@@ -42,7 +42,7 @@ extents = Vector2( 76.8435, 44.4847 )
 "building",
 ]]
 collision_layer = 2
-collision_mask = 202
+collision_mask = 194
 script = ExtResource( 1 )
 
 [node name="WoodSprite" type="Sprite" parent="."]
