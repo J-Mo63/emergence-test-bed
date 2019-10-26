@@ -187,8 +187,7 @@ func gather_depot_wood(amount):
 				has_fix = true
 			elif amount == 5:
 				has_building = true
-			var reporter = Reporter.new()
-			reporter.report_event("boy howdy")
+			Reporter.report_event("test")
 	else:
 		set_target(owned_depot)
 
