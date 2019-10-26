@@ -49,6 +49,7 @@ func remove_dead_refs():
 
 func drop_all_refs():
 	if owned_depot:
+		owned_depot.mark_for_free = true
 		owned_depot.free_permitted = true
 		owned_depot = null
 	if owned_building:
@@ -139,7 +140,7 @@ func create_building():
 	var buildings = get_tree().get_nodes_in_group("building")
 	var building = get_target_area("building")
 	if building:
-		owned_building = building._expand(self)
+		owned_building = building._expand()
 		has_building = false
 	elif buildings.empty():
 		var building_scene = preload("res://scenes/entities/building.tscn")
@@ -151,11 +152,6 @@ func create_building():
 	elif buildings:
 		set_target(get_closest(buildings))
 
-func clear_building_ownership():
-	owned_building = null
-
-func clear_depot_ownership():
-	owned_depot = null
 
 func upgrade_building():
 	var building = get_target_area("building")
@@ -186,14 +182,11 @@ func deposit_items():
 func gather_depot_wood(amount):
 	var depot = get_target_area("depot")
 	if depot:
-		var result = depot._gather_wood(amount)
-		if result:
+		if depot._gather_wood(amount):
 			if amount == 10:
 				has_fix = true
 			elif amount == 5:
 				has_building = true
-			if result == "gone":
-				owned_depot = null
 			var reporter = Reporter.new()
 			reporter.report_event("boy howdy")
 	else:
@@ -203,11 +196,8 @@ func gather_depot_wood(amount):
 func gather_depot_rock(amount):
 	var depot = get_target_area("depot")
 	if depot:
-		var result = depot._gather_rock(amount)
-		if result:
+		if depot._gather_rock(amount):
 			has_upgrade = true
-			if result == "gone":
-				owned_depot = null
 	else:
 		set_target(owned_depot)
 

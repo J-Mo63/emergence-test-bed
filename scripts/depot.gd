@@ -41,9 +41,8 @@ func _gather_wood(amount):
 					break
 		if empty():
 			mark_for_free = true
-			return "gone"
 		health = max_health
-		return "not gone"
+		return true
 
 func _gather_rock(amount):
 	health -= 1
@@ -58,9 +57,8 @@ func _gather_rock(amount):
 					break
 		if empty():
 			mark_for_free = true
-			return "gone"
 		health = max_health
-		return "not gone"
+		return true
 
 func empty():
 	for amount in items.values():
