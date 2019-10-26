@@ -32,7 +32,9 @@ func run_actions():
 func wander():
 	if not target_position or position == target_position:
 		var new_dir = Vector2(rand_range(-300, 300), rand_range(-300, 300))
-		target_position = global_position + new_dir
+		var new_loc = global_position + new_dir
+		if new_loc.x > -250 and new_loc.x < 1250 and new_loc.y > -250 and new_loc.y < 750:
+			target_position = new_loc
 
 func get_closest(values):
 	var closest_value = values[0]
