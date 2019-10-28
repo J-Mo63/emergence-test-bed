@@ -72,7 +72,7 @@ func run_actions(flags = []):
 				else:
 					create_depot()
 			elif owned_depot and owned_depot.full_wood(10):
-				gather_depot_wood(10)
+				gather_depot("wood", 10)
 			else:
 				gather_items("tree")
 		elif not owned_building.upgraded:
@@ -84,7 +84,7 @@ func run_actions(flags = []):
 				else:
 					create_depot()
 			elif owned_depot and owned_depot.full_rock(5):
-				gather_depot_rock(5)
+				gather_depot("rock", 5)
 			else:
 				gather_items("quarry")
 	elif has_building:
@@ -95,7 +95,7 @@ func run_actions(flags = []):
 		else:
 			create_depot()
 	elif owned_depot and owned_depot.full_wood(5):
-		gather_depot_wood(5)
+		gather_depot("wood", 5)
 	else:
 		gather_items("tree")
 
@@ -128,6 +128,7 @@ func go_home():
 	else:
 		set_target(owned_building)
 
+
 func fix_building():
 	var building = get_target_area("building")
 	if building and building == owned_building:
@@ -135,6 +136,7 @@ func fix_building():
 		has_fix = false
 	else:
 		set_target(owned_building)
+
 
 func create_building():
 	var buildings = get_tree().get_nodes_in_group("building")
@@ -179,24 +181,18 @@ func deposit_items():
 		set_target(owned_depot)
 
 
-func gather_depot_wood(amount):
+func gather_depot(resource, amount):
 	var depot = get_target_area("depot")
 	if depot:
-		if depot._gather_wood(amount):
-			if amount == 10:
-				has_fix = true
-			elif amount == 5:
+		var result = depot._gather(resource, amount)
+		match result:
+			"building":
 				has_building = true
-	else:
-		set_target(owned_depot)
-
-
-func gather_depot_rock(amount):
-	var depot = get_target_area("depot")
-	if depot:
-		if depot._gather_rock(amount):
-			has_upgrade = true
 				Reporter.report_event("gathered wood", "dude", self)
+			"upgrade":
+				has_upgrade = true
+			"fix":
+				has_fix = true
 	else:
 		set_target(owned_depot)
 

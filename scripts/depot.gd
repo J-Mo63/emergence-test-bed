@@ -27,13 +27,13 @@ func _deposit(item):
 	add_child(item_sprite)
 
 
-func _gather_wood(amount):
+func _gather(resource, amount):
 	health -= 1
 	if health <= 0:
-		items["wood"] = items.get("wood") - amount
+		items[resource] = items.get(resource) - amount
 		var removed = 0
 		for child in get_children():
-			if child is Sprite and child.is_in_group("resource_sprite_wood"):
+			if child is Sprite and child.is_in_group("resource_sprite_" + resource):
 				child.queue_free()
 				removed += 1
 				if removed >= amount:
@@ -41,23 +41,13 @@ func _gather_wood(amount):
 		if empty():
 			mark_for_free = true
 		health = max_health
-		return true
+		if resource == "wood" and amount == 5:
+			return "building"
+		elif resource == "rock" and amount == 5:
+			return "upgrade"
+		elif resource == "wood" and amount == 10:
+			return "fix"
 
-func _gather_rock(amount):
-	health -= 1
-	if health <= 0:
-		items["rock"] = items.get("rock") - amount
-		var removed = 0
-		for child in get_children():
-			if child is Sprite and child.is_in_group("resource_sprite_rock"):
-				child.queue_free()
-				removed += 1
-				if removed >= amount:
-					break
-		if empty():
-			mark_for_free = true
-		health = max_health
-		return true
 
 func empty():
 	for amount in items.values():
@@ -65,8 +55,10 @@ func empty():
 			return false
 	return true
 
+
 func full_wood(amount):
 	return items.get("wood") and items.get("wood") >= amount
+
 
 func full_rock(amount):
 	return items.get("rock") and items.get("rock") >= amount
