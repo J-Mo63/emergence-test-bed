@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 # Enums
 enum States {NO_FOOD}
+enum Building {UPGRADE, FIX, ENTER}
 
 # Export fields
 export (int) var speed = 100
@@ -62,10 +63,10 @@ func run_actions(flags = []):
 		eat()
 	elif owned_building:
 		if day_night_cycle.is_night:
-			go_home()
+			use_owned_building(Building.ENTER)
 		elif owned_building.needs_fix():
 			if has_fix:
-				fix_building()
+				use_owned_building(Building.FIX)
 			elif item:
 				if owned_depot:
 					deposit_items()
@@ -77,7 +78,7 @@ func run_actions(flags = []):
 				gather_items("tree")
 		elif not owned_building.upgraded:
 			if has_upgrade:
-				upgrade_building()
+				use_owned_building(Building.UPGRADE)
 			elif item:
 				if owned_depot:
 					deposit_items()
@@ -121,19 +122,18 @@ func eat():
 			run_actions([States.NO_FOOD])
 
 
-func go_home():
+func use_owned_building(interaction):
 	var building = get_target_area("building")
 	if building and building == owned_building:
-		building._enter(self)
-	else:
-		set_target(owned_building)
-
-
-func fix_building():
-	var building = get_target_area("building")
-	if building and building == owned_building:
-		building._fix()
-		has_fix = false
+		match interaction:
+			Building.UPGRADE:
+				building._upgrade()
+				has_upgrade = false
+			Building.FIX:
+				building._fix()
+				has_fix = false
+			Building.ENTER:
+				building._enter(self)
 	else:
 		set_target(owned_building)
 
@@ -153,15 +153,6 @@ func create_building():
 		owned_building = new_building
 	elif buildings:
 		set_target(get_closest(buildings))
-
-
-func upgrade_building():
-	var building = get_target_area("building")
-	if building and building == owned_building:
-		building._upgrade()
-		has_upgrade = false
-	else:
-		set_target(owned_building)
 
 
 func create_depot():
