@@ -67,38 +67,17 @@ func run_actions(flags = []):
 		elif owned_building.needs_fix():
 			if has_fix:
 				use_owned_building(Building.FIX)
-			elif item:
-				if owned_depot:
-					deposit_items()
-				else:
-					create_depot()
-			elif owned_depot and owned_depot.full_wood(10):
-				gather_depot("wood", 10)
 			else:
-				gather_items("tree")
+				gather_resources(10, "wood", "tree")
 		elif not owned_building.upgraded:
 			if has_upgrade:
 				use_owned_building(Building.UPGRADE)
-			elif item:
-				if owned_depot:
-					deposit_items()
-				else:
-					create_depot()
-			elif owned_depot and owned_depot.full_rock(5):
-				gather_depot("rock", 5)
 			else:
-				gather_items("quarry")
+				gather_resources(5, "rock", "quarry")
 	elif has_building:
 		create_building()
-	elif item:
-		if owned_depot:
-			deposit_items()
-		else:
-			create_depot()
-	elif owned_depot and owned_depot.full_wood(5):
-		gather_depot("wood", 5)
 	else:
-		gather_items("tree")
+		gather_resources(5, "wood", "tree")
 
 
 func process_needs():
@@ -120,6 +99,18 @@ func eat():
 			set_target(get_closest(foods))
 		else:
 			run_actions([States.NO_FOOD])
+
+
+func gather_resources(amount, resource, source):
+	if item:
+		if owned_depot:
+			deposit_items()
+		else:
+			create_depot()
+	elif owned_depot and owned_depot.has(amount, resource):
+		gather_depot(resource, amount)
+	else:
+		gather_items(source)
 
 
 func use_owned_building(interaction):

@@ -56,9 +56,5 @@ func empty():
 	return true
 
 
-func full_wood(amount):
-	return items.get("wood") and items.get("wood") >= amount
-
-
-func full_rock(amount):
-	return items.get("rock") and items.get("rock") >= amount
+func has(amount, resource):
+	return items.get(resource) and items.get(resource) >= amount
