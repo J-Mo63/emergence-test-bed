@@ -9,15 +9,19 @@ func _init():
 	file.close()
 	append_to_file(PoolStringArray([
 		"id", 
+		"entity_type", 
+		"entity_id", 
 		"time", 
 		"pos_x",
 		"pos_y",
 		"event_type", 
 	]))
 
-func report_event(event_details, entity):
+func report_event(event_details, entity_type, entity):
 	var line = PoolStringArray([
 		current_line, 
+		entity_type, 
+		entity.get_instance_id(), 
 		OS.get_ticks_msec(), 
 		entity.global_position.x,
 		entity.global_position.y,
