@@ -26,6 +26,7 @@ func run_actions():
 		for body in bodies:
 			if body.is_in_group("active_dude"):
 				body.lifespan = 0
+				Reporter.report_event(self, "wraith", "killed_dude")
 	else:
 		wander()
 

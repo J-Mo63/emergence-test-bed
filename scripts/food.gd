@@ -4,12 +4,14 @@ export (float) var offspring_padding = 15
 var health = 20
 
 func _ready():
+	Reporter.report_event(self, "food", "spawned")
 	$Timer.connect("timeout", self, "spawn")
 
 func _gather():
 	health -= 1
 	if health == 0:
 		queue_free()
+		Reporter.report_event(self, "food", "gathered")
 		return true
 
 func spawn():

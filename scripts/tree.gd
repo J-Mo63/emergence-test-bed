@@ -7,6 +7,7 @@ var tree_scene = load("res://scenes/entities/tree.tscn")
 
 func _ready():
 	$SpawnTimer.connect("timeout", self, "_on_timer_timeout")
+	Reporter.report_event(self, "tree", "spawned")
 
 
 func _on_timer_timeout():
@@ -39,4 +40,5 @@ func _gather():
 	health -= 1
 	if health == 0:
 		queue_free()
+		Reporter.report_event(self, "tree", "gathered")
 		return "wood"

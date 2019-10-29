@@ -31,6 +31,10 @@ var has_upgrade = false
 var has_fix = false
 
 
+func _ready():
+	Reporter.report_event(self, "dude", "created")
+
+
 func _physics_process(_delta):
 	remove_dead_refs()
 	process_needs()
@@ -86,6 +90,7 @@ func process_needs():
 	if hunger <= 0 or lifespan <= 0:
 		drop_all_refs()
 		queue_free()
+		Reporter.report_event(self, "dude", "died")
 
 
 func eat():
@@ -93,6 +98,7 @@ func eat():
 	if food:
 		if food._gather():
 			hunger = max_hunger
+			Reporter.report_event(self, "dude", "ate_food")
 	else:
 		var foods = get_tree().get_nodes_in_group("food")
 		if foods:
@@ -120,11 +126,14 @@ func use_owned_building(interaction):
 			Building.UPGRADE:
 				building._upgrade()
 				has_upgrade = false
+				Reporter.report_event(self, "dude", "upgraded_building")
 			Building.FIX:
 				building._fix()
 				has_fix = false
+				Reporter.report_event(self, "dude", "fixed_building")
 			Building.ENTER:
 				building._enter(self)
+				Reporter.report_event(self, "dude", "entered_building")
 	else:
 		set_target(owned_building)
 
@@ -135,6 +144,7 @@ func create_building():
 	if building:
 		owned_building = building._expand()
 		has_building = false
+		Reporter.report_event(self, "dude", "created_building")
 	elif buildings.empty():
 		var building_scene = preload("res://scenes/entities/building.tscn")
 		var new_building = building_scene.instance()
@@ -142,6 +152,7 @@ func create_building():
 		get_parent().add_child(new_building)
 		has_building = false
 		owned_building = new_building
+		Reporter.report_event(self, "dude", "created_building")
 	elif buildings:
 		set_target(get_closest(buildings))
 
@@ -151,12 +162,14 @@ func create_depot():
 	owned_depot = depot_scene.instance()
 	owned_depot.position = position
 	get_parent().add_child(owned_depot)
+	Reporter.report_event(self, "dude", "created_depot")
 
 
 func deposit_items():
 	var depot = get_target_area("depot")
 	if depot:
 		depot._deposit(item)
+		Reporter.report_event(self, "dude", "deposited_resource_" + item)
 		item = null
 		$BodySprite/ItemSprite.texture = item
 	else:
@@ -170,11 +183,13 @@ func gather_depot(resource, amount):
 		match result:
 			"building":
 				has_building = true
-				Reporter.report_event("gathered wood", "dude", self)
+				Reporter.report_event(self, "dude", "gathered_building_materials")
 			"upgrade":
 				has_upgrade = true
+				Reporter.report_event(self, "dude", "gathered_upgrade_materials")
 			"fix":
 				has_fix = true
+				Reporter.report_event(self, "dude", "gathered_fix_materials")
 	else:
 		set_target(owned_depot)
 
@@ -188,6 +203,7 @@ func gather_items(type):
 			image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
 			image_texture.set_flags(Texture.FLAG_FILTER)
 			$BodySprite/ItemSprite.texture = image_texture
+			Reporter.report_event(self, "dude", "gathered_resource_" + type)
 	else:
 		var resources = get_tree().get_nodes_in_group(type)
 		if resources:

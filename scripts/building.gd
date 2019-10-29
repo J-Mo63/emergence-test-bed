@@ -9,6 +9,9 @@ var current_occupant = null
 var mark_for_free = false
 var free_permitted = false
 
+func _ready():
+	Reporter.report_event(self, "building", "created")
+
 func _physics_process(delta):
 	if mark_for_free and free_permitted:
 		queue_free()
@@ -17,13 +20,16 @@ func _physics_process(delta):
 		set_occupation(false, current_occupant)
 		current_occupant.add_to_group("active_dude")
 		current_occupant = null
+		Reporter.report_event(self, "building", "dude_exited")
 	
 	if health <= 0:
 		if current_occupant:
 			set_occupation(false, current_occupant)
 			current_occupant.add_to_group("active_dude")
 			current_occupant = null
+			Reporter.report_event(self, "building", "dude_exited")
 		mark_for_free = true
+		Reporter.report_event(self, "building", "destroyed")
 	elif health < max_health/4:
 		$Destruction2Sprite.visible = true
 	elif health < max_health/2:
@@ -38,6 +44,7 @@ func _enter(dude):
 	current_occupant = dude
 	current_occupant.remove_from_group("active_dude")
 	set_occupation(true, dude)
+	Reporter.report_event(self, "building", "dude_entered")
 
 func set_occupation(occupied, occupant):
 	occupant.visible = not occupied

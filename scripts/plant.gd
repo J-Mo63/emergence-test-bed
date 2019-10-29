@@ -1,6 +1,7 @@
 extends Area2D
 
 func _ready():
+	Reporter.report_event(self, "plant", "spawned")
 	$Timer.connect("timeout", self, "grow")
 
 func grow():
