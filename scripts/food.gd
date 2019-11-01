@@ -11,7 +11,7 @@ func _gather():
 	health -= 1
 	if health == 0:
 		queue_free()
-		Reporter.report_event(self, "food", "gathered")
+		Reporter.report_event(self, "food", "harvested")
 		return true
 
 func spawn():

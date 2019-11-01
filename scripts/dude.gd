@@ -32,7 +32,7 @@ var has_fix = false
 
 
 func _ready():
-	Reporter.report_event(self, "dude", "created")
+	Reporter.report_event(self, "dude", "spawned")
 
 
 func _physics_process(_delta):
@@ -144,7 +144,7 @@ func create_building():
 	if building:
 		owned_building = building._expand()
 		has_building = false
-		Reporter.report_event(self, "dude", "created_building")
+		Reporter.report_event(self, "dude", "spawned_building")
 	elif buildings.empty():
 		var building_scene = preload("res://scenes/entities/building.tscn")
 		var new_building = building_scene.instance()
@@ -152,7 +152,7 @@ func create_building():
 		get_parent().add_child(new_building)
 		has_building = false
 		owned_building = new_building
-		Reporter.report_event(self, "dude", "created_building")
+		Reporter.report_event(self, "dude", "spawned_building")
 	elif buildings:
 		set_target(get_closest(buildings))
 
@@ -162,7 +162,7 @@ func create_depot():
 	owned_depot = depot_scene.instance()
 	owned_depot.position = position
 	get_parent().add_child(owned_depot)
-	Reporter.report_event(self, "dude", "created_depot")
+	Reporter.report_event(self, "dude", "spawned_depot")
 
 
 func deposit_items():
@@ -203,7 +203,7 @@ func gather_items(type):
 			image_texture.create_from_image(load("res://assets/sprites/" + item + ".png"))
 			image_texture.set_flags(Texture.FLAG_FILTER)
 			$BodySprite/ItemSprite.texture = image_texture
-			Reporter.report_event(self, "dude", "gathered_resource_" + type)
+			Reporter.report_event(self, "dude", "harvested_resource_" + type)
 	else:
 		var resources = get_tree().get_nodes_in_group(type)
 		if resources:

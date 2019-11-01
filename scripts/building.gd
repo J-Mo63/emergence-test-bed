@@ -10,7 +10,7 @@ var mark_for_free = false
 var free_permitted = false
 
 func _ready():
-	Reporter.report_event(self, "building", "created")
+	Reporter.report_event(self, "building", "spawned")
 
 func _physics_process(delta):
 	if mark_for_free and free_permitted:
