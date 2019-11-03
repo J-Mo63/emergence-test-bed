@@ -2,7 +2,13 @@ extends Node
 
 var file_name = "user://gameplay_report.csv"
 var current_line = 1
+var max_runtime = 5
+
 onready var start_time = OS.get_ticks_msec()
+
+func _physics_process(_delta):
+	if get_time_msec() / 60000 >= max_runtime:
+		get_tree().quit()
 
 func _init():
 	var file = File.new()
