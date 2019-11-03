@@ -2,6 +2,7 @@ extends Node
 
 var file_name = "user://gameplay_report.csv"
 var current_line = 1
+onready var start_time = OS.get_ticks_msec()
 
 func _init():
 	var file = File.new()
@@ -20,7 +21,7 @@ func _init():
 func report_event(entity, entity_type, event_details):
 	var line = PoolStringArray([
 		current_line, 
-		OS.get_ticks_msec(), 
+		get_time_msec(), 
 		entity_type, 
 		entity.get_instance_id(), 
 		entity.global_position.x,
@@ -36,3 +37,6 @@ func append_to_file(line):
 	file.seek_end()
 	file.store_csv_line(line)
 	file.close()
+
+func get_time_msec():
+	return OS.get_ticks_msec() - start_time
