@@ -501,8 +501,8 @@ tracks/3/keys = {
 radius = 40.444
 
 [node name="Dude" type="KinematicBody2D" groups=[
-"active_dude",
 "dude",
+"active_dude",
 ]]
 z_index = 1
 collision_mask = 254
