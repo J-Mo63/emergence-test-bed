@@ -59,12 +59,14 @@ func _init():
 	]))
 
 func _ready():
+	# Import scripts for checking properties
 	var tree_script = preload("res://scripts/tree.gd").new()
 	var food_script = preload("res://scripts/food.gd").new()
 	var dude_script = preload("res://scripts/dude.gd").new()
 	var wraith_script = preload("res://scripts/wraith.gd").new()
 	var quarry_script = preload("res://scripts/quarry.gd").new()
 	var building_script = preload("res://scripts/building.gd").new()
+	# Set game params for session
 	game_params = [
 		get_node_property("wait_time", preload("res://scenes/entities/tree.tscn")),
 		tree_script.health,
