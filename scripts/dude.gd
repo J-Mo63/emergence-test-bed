@@ -5,7 +5,7 @@ enum States {NO_FOOD}
 enum Building {UPGRADE, FIX, ENTER}
 
 # Export fields
-export (int) var speed = 100
+export (int) var speed = 110
 export (int) var max_hunger = 5000
 export (int) var lifespan = 10000
 
