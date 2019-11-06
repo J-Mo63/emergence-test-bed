@@ -1,6 +1,6 @@
 extends Area2D
 
-var health = 80
+var health = 50
 
 func _gather():
 	health -= 1

@@ -22,5 +22,5 @@ scale = Vector2( 5, 5 )
 texture = ExtResource( 2 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 9.0
 autostart = true
