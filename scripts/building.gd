@@ -68,11 +68,11 @@ func _upgrade():
 	$StoneSprite.visible = true
 	$WoodSprite.visible = false
 	var timer = Timer.new()
+	add_child(timer)
 	timer.one_shot = true
 	timer.connect("timeout", self, "spawn_dude")
 	timer.set_wait_time(1)
 	timer.start()
-	add_child(timer)
 
 func _expand():
 	var building_scene = load("res://scenes/entities/building.tscn")
